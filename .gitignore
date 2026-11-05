@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+# Local secrets/environment
+.env
+# Generated data and artifacts: keep guidance, not outputs by default
+/data/**
+!/data/**/
+!/data/**/README.md
+/experiments/runs/**
+!/experiments/runs/**/
+!/experiments/runs/**/README.md
+/artifacts/**
+!/artifacts/**/
+!/artifacts/**/README.md
+/logs/**
+!/logs/**/
+!/logs/**/README.md
+# Front-end generated dependencies/build
+node_modules/
+dist/
+build/
