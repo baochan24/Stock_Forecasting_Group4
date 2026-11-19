@@ -1,6 +1,12 @@
-# Hướng dẫn cài đặt và chạy — chờ triển khai
+# Hướng dẫn cài đặt và chạy
 
-Chưa có lệnh chạy đã kiểm chứng. Điền sau khi chọn và cài thử môi trường:
+## Phần dữ liệu TV1
+
+Hướng dẫn thực tế, đường dẫn Drive/artifacts, dependencies, kernel và lệnh tests/notebook: [TV1 Setup and Reproduce](TV1_Setup_and_Reproduce.md). Dataset hiện tại AAPL 2015–2025, không cần train lại để kiểm tra dữ liệu. Kết quả môi trường sạch cùng máy được ghi theo log thực thi, không thay xác nhận máy khác.
+
+## Các phần hệ thống chưa triển khai/kiểm chứng
+
+Các mục dưới chưa có lệnh chạy đã kiểm chứng; bổ sung khi triển khai phần tương ứng:
 - Python/dependencies CPU đã xác minh.
 - Cách nhận snapshot dữ liệu và release.
 - Chạy pipeline nghiên cứu, inference, API và front-end.

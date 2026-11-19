@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import unittest
 from pathlib import Path
 
@@ -21,7 +22,7 @@ class TestDataValidationPipeline(unittest.TestCase):
                 "Adj Close": [24.15, 23.47, 23.48],
             }
         )
-        report, validated_df = inspect_raw_dataframe(sample_df, dataset_version="test_v1")
+        report, validated_df = inspect_raw_dataframe(sample_df, dataset_version="test_v1", start_date='2015-01-01', end_date='2015-01-06')
         self.assertTrue(report["passed"])
         self.assertEqual(list(validated_df.columns), EXPECTED_VALIDATED_COLUMNS)
         self.assertEqual(len(validated_df), 3)
@@ -51,7 +52,9 @@ class TestDataValidationPipeline(unittest.TestCase):
 
     def test_generated_aapl_artifacts_integrity(self) -> None:
         """Kiểm tra bộ dữ liệu AAPL thật đã tạo trong thư mục data/."""
-        version = "aapl_2015_2025_v1"
+        version = os.environ.get('TV1_DATASET_VERSION')
+        if not version:
+            self.skipTest('Set TV1_DATASET_VERSION to run real-artifact integration verification.')
         raw_file = Path(f"data/raw/aapl_raw_{version}.csv")
         val_file = Path(f"data/validated/aapl_validated_{version}.csv")
         meta_file = Path(f"data/metadata/aapl_metadata_{version}.json")

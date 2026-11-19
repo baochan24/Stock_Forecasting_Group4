@@ -4,7 +4,7 @@
 Dự báo giá cổ phiếu AAPL bằng mạng LSTM — coursework Deep Learning.
 
 ## Trạng thái hiện tại
-Repository chứa **bộ khung và tài liệu Define/Design đã thống nhất**. Chưa có implementation chạy được, dataset đã tải, checkpoint đã train hoặc kết quả thực nghiệm. Các thư mục module hiện có README mô tả trách nhiệm, không phải code đã hoàn thành.
+Nhánh `Tâm` có **implementation dữ liệu TV1**: tải snapshot AAPL, kiểm tra metadata/chất lượng/lịch phiên, bảng validated bốn cột, notebook EDA/điều tra và 34 tests. Snapshot hiện tại có 2.766 phiên; đã kiểm chứng trong môi trường sạch trên cùng máy. Xác nhận người nhận/máy thành viên khác còn chờ. Đây chưa phải hệ thống model/train/API/web hoàn chỉnh; phần TV2 trở đi chưa được nghiệm thu trong phần việc này. Chưa tự merge nhánh này vào `main`.
 
 ## Bài toán và phạm vi
 - Nguồn: Yahoo Finance, thu thập bằng yfinance; một mã **AAPL**, dữ liệu ngày **2015–2025**.
@@ -41,8 +41,8 @@ Không đặt trước điều kiện LSTM phải thắng baseline; kết luận
 | experiments/ | Cấu hình và logs/kết quả từng run |
 | artifacts/ | Scaler, checkpoint và release |
 | logs/ | Logs web/audit vận hành |
-| tests/ | Vị trí kiểm tra có ý nghĩa theo module, chưa có test thực thi |
-| scripts/, notebooks/ | Entry points và khảo sát/trình diễn sẽ triển khai |
+| tests/ | Có suite TV1 dữ liệu; các phần model/train/API triển khai riêng |
+| scripts/, notebooks/ | Entry points TV1, notebook có output và bằng chứng tái lập |
 
 Xem [FILE_STRUCTURE.md](FILE_STRUCTURE.md) để biết danh sách file.
 
@@ -62,13 +62,15 @@ TV1 dữ liệu; TV2 preprocessing/windowing; TV3 LSTM/trace; TV4 training LSTM;
 ## Cài đặt và chạy
 Hiện chưa có lệnh train/API/front-end đã kiểm chứng vì implementation và dependencies chưa có. Theo dõi [hướng dẫn cài đặt/chạy](docs/09_Setup_and_Run.md) và [chi tiết còn mở](docs/10_Open_Decisions.md). Không suy luận rằng clone repository là có thể mở web ngay.
 
+Phần TV1 đã có [hướng dẫn cài đặt và tái lập](docs/TV1_Setup_and_Reproduce.md), [notebook kết quả](notebooks/01_AAPL_Data_Exploration.ipynb) và bộ dependencies ghim. Nhận source/dataset đúng version từ các link trong hướng dẫn; không tải lại Yahoo để thay snapshot đã bàn giao.
+
 Khi có release đầy đủ, thành viên dùng dataset/model/scaler/config đã bàn giao để chạy inference **không cần train lại**. Hiện chưa có release đó.
 
 ## Dữ liệu, logs và Git
-.gitignore giữ hướng dẫn thư mục nhưng loại dữ liệu/checkpoint/logs sinh ra khỏi commit mặc định. Git chứa source/docs/config và các báo cáo có chủ đích. Kênh nhận artifacts sẽ được xác định trước bàn giao. Không đưa môi trường ảo hoặc thông tin bí mật lên Git.
+.gitignore giữ hướng dẫn thư mục nhưng loại dữ liệu/checkpoint/logs sinh ra khỏi commit mặc định. Git chứa source/docs/config và báo cáo có chủ đích. Kênh bàn giao TV1 là Drive Project_CW trong hướng dẫn; model release chưa có. Không đưa môi trường ảo hoặc thông tin bí mật lên Git.
 
 ## Sản phẩm coursework
-Bảy mục báo cáo: vấn đề/phạm vi; dữ liệu mẫu/mô tả; mã nguồn; hướng dẫn cài đặt/chạy; demo hệ thống; so sánh baseline; phân tích lỗi/giới hạn. Các file reports hiện là khung, chưa có kết quả.
+Bảy mục báo cáo: vấn đề/phạm vi; dữ liệu mẫu/mô tả; mã nguồn; hướng dẫn cài đặt/chạy; demo hệ thống; so sánh baseline; phân tích lỗi/giới hạn. Phần TV1 có số liệu/bằng chứng thực tế; các kết quả model/demo/so sánh chưa được tạo trong phần việc này.
 
 ## Trình tự triển khai
 Hoàn tất thiết kế → dữ liệu/baseline → LSTM một bước và đo CPU → khóa thực nghiệm → CNN/multi-step trên validation → test/phân tích → release → web tích hợp → kiểm tra máy khác/bàn giao. Web có thể làm song song bằng dữ liệu minh họa gắn nhãn; không dùng test để phát triển mô hình.

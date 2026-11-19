@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import shutil
 import tempfile
 from datetime import datetime, timezone
@@ -32,10 +33,13 @@ def compute_sha256(file_path: Path) -> str:
     return sha256.hexdigest()
 
 
-def download_aapl_snapshot(
+def _write_aapl_snapshot(
     dataset_version: str = "aapl_2015_2025_v1",
     raw_dir: str | Path = "data/raw",
     metadata_dir: str | Path = "data/metadata",
+    *,
+    raw_stream,
+    metadata_stream,
 ) -> dict[str, Any]:
     """Tải dữ liệu AAPL (2015-2025) từ Yahoo Finance, lưu bản gốc và metadata."""
     ticker = "AAPL"
@@ -70,9 +74,12 @@ def download_aapl_snapshot(
     df = df[(df["date"] >= start_date) & (df["date"] <= end_date_inclusive)].copy()
     ordered_cols = ["date"] + [c for c in df.columns if c not in ("date", date_col)]
     df = df[ordered_cols]
+    if df.empty:
+        raise RuntimeError('No rows in the requested 2015–2025 period.')
 
     raw_file_path = raw_path_dir / f"aapl_raw_{dataset_version}.csv"
-    df.to_csv(raw_file_path, index=False)
+    df.to_csv(raw_stream, index=False)
+    raw_stream.flush()
 
     file_hash = compute_sha256(raw_file_path)
     downloaded_at = datetime.now(timezone.utc).isoformat()
@@ -102,11 +109,51 @@ def download_aapl_snapshot(
         "raw_sha256": file_hash,
     }
 
-    meta_file_path = meta_path_dir / f"aapl_metadata_{dataset_version}.json"
-    with meta_file_path.open("w", encoding="utf-8") as f:
-        json.dump(metadata, f, ensure_ascii=False, indent=2)
+    json.dump(metadata, metadata_stream, ensure_ascii=False, indent=2)
+    metadata_stream.flush()
 
     return metadata
+
+
+def download_aapl_snapshot(
+    dataset_version: str = 'aapl_2015_2025_v1',
+    raw_dir: str | Path = 'data/raw',
+    metadata_dir: str | Path = 'data/metadata',
+) -> dict[str, Any]:
+    """Create a new snapshot; reject existing versions before any network call.
+
+    Exclusive creation protects both output paths, including concurrent callers.
+    On a caught failure remove only files created by this call. An interrupted
+    process may leave a partial pair: a retry still refuses to overwrite it.
+    """
+    if not isinstance(dataset_version, str) or not re.fullmatch(r'[A-Za-z0-9_-]+', dataset_version):
+        raise ValueError('dataset_version must contain only letters, digits, underscore or dash.')
+    raw_path = Path(raw_dir) / f'aapl_raw_{dataset_version}.csv'
+    meta_path = Path(metadata_dir) / f'aapl_metadata_{dataset_version}.json'
+    for path in (raw_path, meta_path):
+        if path.exists() or path.is_symlink():
+            raise FileExistsError(f'Snapshot already exists: {path}. Use a new dataset_version.')
+    raw_path.parent.mkdir(parents=True, exist_ok=True)
+    meta_path.parent.mkdir(parents=True, exist_ok=True)
+    owned = []
+    streams = []
+    try:
+        for path in (raw_path, meta_path):
+            stream = path.open('x', encoding='utf-8', newline='')
+            owned.append(path)
+            streams.append(stream)
+        result = _write_aapl_snapshot(dataset_version, raw_dir, metadata_dir,
+                                      raw_stream=streams[0], metadata_stream=streams[1])
+    except BaseException:
+        for stream in streams:
+            stream.close()
+        for path in owned:
+            path.unlink()
+        raise
+    else:
+        for stream in streams:
+            stream.close()
+        return result
 
 
 if __name__ == "__main__":

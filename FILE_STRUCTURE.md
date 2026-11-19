@@ -1,6 +1,6 @@
 # File Structure
 
-Đây là bộ khung có tài liệu trách nhiệm, chưa phải ứng dụng chạy được. Không thêm framework/API train/đăng nhập/giao dịch/cập nhật real-time ngoài phạm vi đã chốt.
+Cấu trúc có implementation TV1 về dữ liệu, tests và notebook; chưa phải toàn bộ ứng dụng model/API/web chạy được. Không thêm framework/API train/đăng nhập/giao dịch/cập nhật real-time ngoài phạm vi đã chốt.
 
 ## Thư mục cấp cao
 | Thư mục | Vai trò |
@@ -18,6 +18,65 @@
 | notebooks | Khảo sát và trình diễn, dùng logic chung |
 
 ## Danh sách file
+
+### Bổ sung cục bộ ngày 19/11/2026
+
+- `scripts/audit_tv1_completion.py` — audit lại artifacts/10 hạng mục và kết quả data, ghi report theo run ID.
+- `reports/audits/TV1_Final_Audit.md` — bảng nghiệm thu cuối và findings đã xử lý/còn mở.
+
+
+- `notebooks/requirements-tv1-lock.txt` — 65 phiên bản thư viện từ venv sạch đã chạy thành công; Windows/Python 3.13.
+
+- `docs/TV1_Setup_and_Reproduce.md` — hướng dẫn nhận source/artifacts, môi trường/kernel và tái lập TV1.
+- `scripts/check_tv1_reproducibility.py` — kiểm chứng trong workspace riêng bằng venv sạch trên cùng máy.
+- `reports/audits/TV1_Reproducibility.md` — kết quả hạng mục 10 và giới hạn xác nhận độc lập.
+
+- `scripts/run_tv1_checks.py` — chạy suite TV1, lưu summary/log/hash/môi trường theo run ID.
+- `tests/data/test_handoff_integrity.py` — kiểm tra gói thật trên bản sao, thử các lỗi integrity.
+- `tests/data/test_pipeline_integration.py` — pipeline offline tổng hợp, metadata/hash lỗi và bảo vệ output.
+- `reports/audits/TV1_Test_Summary.md` — báo cáo hạng mục 9.
+
+- `reports/audits/TV1_Anomaly_Sources.json` — ledger nguồn/bối cảnh/mức bằng chứng cho 5 phiên gắn cờ.
+- `reports/audits/TV1_Anomaly_Review.md` — báo cáo điều tra mục 8, không sửa dữ liệu.
+
+- `reports/audits/TV1_Data_Exploration.md` — kết quả EDA hạng mục 7, liên kết hình và bảng theo run ID.
+- `reports/figures/<dataset_version>_<eda_run_id>_*.png` — 5 hình EDA thực, có ID riêng mỗi lần chạy.
+
+- `backend/data/validation/standard_output.py` — nghiệm thu bảng chuẩn sau audit chất lượng.
+- `tests/data/test_standard_output.py` — kiểm tra sai schema/hash/giá/ngày/định danh và audit cũ.
+- `reports/audits/TV1_Standard_Output.md` — kết quả hạng mục 6.
+
+- `tests/data/test_data_quality.py` — fixture kiểm tra ngày/giá/lịch phiên và OHLCV.
+- `reports/audits/TV1_Data_Quality.md` — bằng chứng audit chất lượng snapshot, hạng mục 5.
+
+- `scripts/verify_tv1_handoff.py` — xác minh ZIP đầy đủ, hash liên kết và raw/validated từng dòng; chỉ dùng thư viện chuẩn.
+
+- `tests/data/test_snapshot_versioning.py` — kiểm tra version trùng, file dở, tranh chấp tạo file và lỗi tải.
+- `reports/audits/TV1_Snapshot_Versioning.md` — bằng chứng bảo vệ snapshot hạng mục 4.
+
+- `backend/data/validation/provenance.py` — kiểm tra nhất quán metadata với raw snapshot.
+- `tests/data/test_provenance.py` — kiểm tra metadata thiếu/sai và raw bị thay đổi bằng fixture minh họa.
+- `reports/audits/TV1_Metadata_Provenance.md` — phạm vi và kết quả hạng mục 3.
+
+- `reports/audits/TV1_Snapshot_Handoff.md` — bằng chứng chuẩn bị bàn giao và trạng thái truy cập Drive.
+
+- `scripts/package_tv1_snapshot.py` — đóng gói raw snapshot/metadata và kiểm tra hash trước bàn giao; không xuất bản.
+
+- `.vscode/settings.json` — cấu hình IDE được người dùng yêu cầu để chọn môi trường EDA mặc định; không phải module sản phẩm.
+
+- `reports/audits/TV1_Acquisition_20261119T141302002415Z.md` — bằng chứng lần thu thập AAPL mới bằng downloader TV1; chưa validation.
+
+- `backend/data/acquisition/downloader.py` — lấy nguyên bản từ TV1 PR #5.
+- `backend/data/validation/validator.py` — lấy nguyên bản từ TV1 PR #5.
+- `tests/data/test_data_pipeline.py` — test nguyên bản TV1 PR #5.
+- `reports/02_Data_Description.md` — cập nhật theo báo cáo TV1 PR #5; số liệu do TV1 báo cáo, chưa xác minh snapshot gốc trên máy này.
+- `notebooks/01_AAPL_Data_Exploration.ipynb` — khám phá snapshot EDA mới, tách biệt artifacts TV1.
+- `notebooks/requirements-eda.txt` — dependencies riêng của notebook.
+- `scripts/build_data_exploration.py` — tạo notebook; chuyển từ `notebooks/` theo yêu cầu người dùng.
+- `scripts/execute_data_exploration.py` — chạy notebook; chuyển từ `notebooks/` theo yêu cầu người dùng.
+- `reports/audits/pr_review_2026_11_19/` — bằng chứng audit trước đó, bản sao PR và kết quả kiểm tra; không phải implementation chính.
+
+Đây là tiếp nhận source cục bộ, chưa merge/commit/push GitHub. Chưa tiếp nhận phần TV2.
 
 - `docs/12_Team_Assignment.md` — phân công model/train cho TV1–TV6; API/front-end do nhóm trưởng.
 
@@ -61,11 +120,6 @@
 - `docs/09_Setup_and_Run.md`
 - `docs/10_Open_Decisions.md`
 - `docs/11_Decision_Log.md`
-- `docs/13_Environment_and_Dependencies.md`
-- `docs/14_Module_Interfaces.md`
-- `docs/15_Experiment_Config_Schema.md`
-- `docs/16_Testing_Strategy.md`
-- `docs/17_Coding_Conventions.md`
 - `experiments/configs/README.md`
 - `experiments/runs/README.md`
 - `frontend/README.md`

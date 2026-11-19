@@ -1,6 +1,22 @@
 # Dữ liệu mẫu và mô tả
 
-Trạng thái: đã hoàn thành và kiểm chứng phần thu thập, kiểm tra dữ liệu thô/sạch của TV1 (`dataset_version: aapl_2015_2025_v1`). Phần tiền xử lý, chia tập cửa sổ trượt và audit rò rỉ dữ liệu do TV2 bổ sung sau khi triển khai — hiện chưa kiểm chứng.
+## Cập nhật đã kiểm chứng trên snapshot hiện tại — 19/11/2026
+
+**Kết luận audit lại:** phần dữ liệu TV1 đạt các kiểm tra tại máy, sẵn sàng chuyển bảng chuẩn cho TV2; còn chờ xác nhận người nhận/máy khác ở mục 2 và 10. Suite mới nhất 34/34 đạt sau bổ sung hồi quy lỗi ghi report; dữ liệu nguồn và validated không đổi. [Audit đầy đủ 10 hạng mục](audits/TV1_Final_Audit.md) và phần tổng audit ngay đầu notebook là kết quả hiện hành; các báo cáo theo run phía dưới giữ lịch sử.
+
+Snapshot đang dùng: `aapl_2015_2025_acq_20261119T141302002415Z`, khác version cũ trong phần báo cáo PR giữ phía dưới. Notebook đã thực thi các bước thu thập, metadata, bảo vệ snapshot, kiểm tra chất lượng và nghiệm thu bảng bốn cột; EDA hạng mục 7 dùng đúng snapshot này.
+
+Có 2.766 phiên (2015-01-02–2025-12-31), 2.765 return. Median giá 88,16 USD; min/max 20,53/285,20 USD. Median theo năm 2015 và 2025 lần lượt 26,89 và 228,86 USD, cho thấy mức giá khác theo giai đoạn. Return phân vị 1%–99% khoảng -4,81% đến +4,94%; 5 phiên absolute return >10% giữ nguyên để điều tra mục 8. Đây là mô tả dữ liệu, không dùng để tuning trên test hoặc kết luận nguyên nhân.
+
+Chi tiết hình/bảng, run ID và giới hạn: [báo cáo EDA](audits/TV1_Data_Exploration.md), [notebook](../notebooks/01_AAPL_Data_Exploration.ipynb). Hash raw hiện tại `cbcadbc002d05bc27a573114b9bb73b930733585b7823d147ca3477354479351`; validated `ee56f9c782ac9e938985c680a9015d1ae198982e7d1cddc49ee5d67630c7b16d`. TV2 preprocessing chưa được thực hiện trong EDA.
+
+Hạng mục 8 đã đối chiếu 5/5 phiên return >10% với Close/Adj Close và bối cảnh có nguồn; chưa có bằng chứng cần sửa giá, giữ toàn bộ dòng. Xem [báo cáo điều tra](audits/TV1_Anomaly_Review.md), ledger nguồn và mục 8 notebook. Kết luận bối cảnh không phải xác định nguyên nhân duy nhất.
+
+## Nội dung PR TV1 ban đầu — giữ để truy vết, không phải snapshot hiện tại
+
+> Ghi chú tiếp nhận cục bộ 19/11/2026: nội dung dưới đây được lấy từ TV1 PR #5, commit `08675d823bd2499df1508dc4b4cde8722d557629`. Các thống kê, hash và kết quả 4/4 là do TV1 báo cáo, chưa được xác minh trên snapshot gốc ở workspace này vì chưa nhận artifacts. Snapshot EDA mới trong notebook là bộ riêng, không thay thế bằng chứng bàn giao TV1.
+
+Trạng thái theo tác giả PR ban đầu: đã hoàn thành và kiểm chứng version `aapl_2015_2025_v1`; tuyên bố và số liệu lịch sử dưới đây chưa được xác minh trên artifacts gốc của version đó tại workspace này. Số liệu đang dùng nằm ở phần cập nhật đầu file. TV2 preprocessing/windowing không thuộc phần việc đã nghiệm thu TV1.
 
 ## Nội dung cần hoàn thiện
 
