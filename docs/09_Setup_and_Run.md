@@ -1,5 +1,9 @@
 # Hướng dẫn cài đặt và chạy
 
+## TV2 preprocessing — hướng dẫn đã kiểm chứng local
+
+Xem `docs/TV2_Setup_and_Handoff.md`: venv sạch Python3.13.7, scripts/requirements-tv2-lock.txt, runner tests, nạp prepared arrays/records và verify toàn gói giải nén. Kết quả cụ thể tại reports/audits/TV2_Final_Handoff.md. Không cần PyTorch/notebook/train để kiểm tra gói preprocessing; chưa chứng minh máy thành viên khác, chưa là hướng dẫn release model/web.
+
 ## Phần dữ liệu TV1
 
 Hướng dẫn thực tế, đường dẫn Drive/artifacts, dependencies, kernel và lệnh tests/notebook: [TV1 Setup and Reproduce](TV1_Setup_and_Reproduce.md). Dataset hiện tại AAPL 2015–2025, không cần train lại để kiểm tra dữ liệu. Kết quả môi trường sạch cùng máy được ghi theo log thực thi, không thay xác nhận máy khác.

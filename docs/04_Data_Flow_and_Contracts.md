@@ -15,6 +15,14 @@ Forecast Input: sample_id, dataset_version, forecast_origin, input_dates, input_
 Target riêng: sample_id, target_dates, target_values, split, horizon_step. Inference không nhận target.
 Input LSTM (B,30,1); target một bước (B,1), năm bước (B,5). CNN chuyển chiều nhưng giữ mẫu/ngày.
 forecast_length là số đầu ra 1/5; horizon_step là khoảng cách 1..5.
+
+### Biểu diễn TV2 đã triển khai (mục 8, 22/11/2026)
+
+Giữ nguyên các trường và shape đã chốt. Record Forecast Input dùng input_dates là list 30 ngày ISO và input_values là mảng raw USD (30,1); forecast_origin là ngày cuối input. Record Target riêng dùng target_dates list H ngày, target_values mảng raw USD (H,), horizon_step list [1] hoặc [1,2,3,4,5] theo cùng thứ tự, split là train/val/test. Đây là biểu diễn vector theo mẫu, không phải 5 lần dự báo recursive.
+
+sample_id hiện có dạng `<dataset_version>:lb30:f<H>:<forecast_origin>`; gắn cùng ID cho Input/Target, phân biệt mode và version, ổn định giữa các lần dựng từ cùng snapshot. Trong batch, X chuẩn hóa float64 (B,30,1), y chuẩn hóa float64 (B,H), thứ tự trùng các records; raw không bị thay bằng scaled. Cast tensor model chưa thuộc hợp đồng adapter đã nghiệm thu.
+
+`backend/data/preparation/contracts.py` kiểm tra các trường, ID, version, ngày/phiên/giá/shape/scaling so với snapshot đã accept. `build_inference_inputs(inputs, scaler)` nhận list input records đồng nhất version/mode và không rỗng, trả bản sao input cùng X; không nhận target/y. Input có trường ngoài danh sách (kể cả target) bị từ chối; batch trộn mode/version hoặc trùng ID bị từ chối. Caller phải xác minh snapshot/scaler trước khi gọi adapter. Đây là chuẩn bị đầu vào, chưa phải implementation inference/API/model của TV6/TV3.
 Demo lịch sử đối chiếu chỉ chọn ngày đủ input/target; ngày hợp lệ phụ thuộc release và chế độ.
 
 ## Dự báo
