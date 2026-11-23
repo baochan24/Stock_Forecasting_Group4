@@ -1,5 +1,9 @@
 # Decision log
 
+## 23/11/2026 — dọn bản upload TV3 dư theo yêu cầu người dùng
+
+Xóa 9 file trong ba package ở gốc nhánh Thiên: `lstm_one_step/`, `lstm_multi_step/`, `model_trace/`. Source hiện hành vẫn ở `backend/models/` và `backend/model_trace/`; không đổi interface/float64/phạm vi mô hình. Đã kiểm tra imports và chạy lại 99/99 tests sau khi xóa. Giữ lịch sử Git, các module phụ thuộc và khung TV4–TV6. Chi tiết: `reports/audits/TV3_Branch_Cleanup.md`.
+
 ## 23/11/2026 — TV3 mục6 chuẩn bị/verify bàn giao
 
 - Theo yêu cầu người dùng tiếp tục mục cuối và lưu báo cáo/notebook: chốt docs consumer TV4/TV6 và checkpoint persistence contract, không triển khai training/selection/API thay thành viên. Giữ CPU float64; diagnostic trained=False bị từ chối mặc định, không gắn nhãn model khởi tạo là model nghiên cứu.

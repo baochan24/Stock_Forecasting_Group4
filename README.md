@@ -6,7 +6,7 @@ Dự báo giá cổ phiếu AAPL bằng mạng LSTM — coursework Deep Learning
 ## Trạng thái hiện tại
 TV3 đã hoàn thiện kỹ thuật local: LSTM một bước/năm bước CPU float64, adapter TV2, trace và kiểm tra lưu/nạp checkpoint; 99/99 tests đạt. Hướng dẫn cài đặt và chạy: [TV3 Setup](docs/TV3_Setup_and_Reproduce.md); kết quả: [TV3 Final Handoff](reports/audits/TV3_Final_Handoff.md); quá trình và outputs: [notebook TV3](notebooks/03_TV3_LSTM_Development_and_Tests.ipynb). Dataset/scaler/prepared nhận qua gói bàn giao riêng, không nằm trong Git. Chưa có checkpoint AAPL huấn luyện chính thức, API/web hoàn chỉnh hoặc xác nhận trên máy người nhận.
 
-Source LSTM hiện hành ở `backend/models/lstm_one_step/`, `backend/models/lstm_multi_step/` và `backend/model_trace/`. Nếu nhánh còn các thư mục `lstm_one_step/`, `lstm_multi_step/`, `model_trace/` tại gốc từ lần upload cũ, chúng là bản lịch sử; sử dụng public imports `backend.models...` và `backend.model_trace` theo tài liệu TV3.
+Source LSTM hiện hành ở `backend/models/lstm_one_step/`, `backend/models/lstm_multi_step/` và `backend/model_trace/`; sử dụng public imports `backend.models...` và `backend.model_trace` theo tài liệu TV3. Các bản upload cũ trong ba thư mục cùng tên tại gốc đã được xác định là dư thừa để loại khỏi nhánh TV3; lịch sử Git vẫn giữ các bản trước.
 
 ## Bài toán và phạm vi
 - Nguồn: Yahoo Finance, thu thập bằng yfinance; một mã **AAPL**, dữ liệu ngày **2015–2025**.

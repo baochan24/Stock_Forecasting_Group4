@@ -1,5 +1,7 @@
 # File Structure
 
+TV3 cleanup 23/11/2026: source LSTM/trace duy nhất dùng trong project nằm trong `backend/`; loại các bản upload dư ở ba thư mục gốc `lstm_one_step/`, `lstm_multi_step/`, `model_trace/` trên nhánh Thiên. Audit: `reports/audits/TV3_Branch_Cleanup.md`. Ghi nhận công bố Git: `reports/audits/TV3_Git_Publication.md`.
+
 Đây là bộ khung có tài liệu trách nhiệm, chưa phải ứng dụng chạy được. Không thêm framework/API train/đăng nhập/giao dịch/cập nhật real-time ngoài phạm vi đã chốt.
 
 ## Thư mục cấp cao
