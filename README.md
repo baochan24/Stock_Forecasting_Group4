@@ -4,7 +4,9 @@
 Dự báo giá cổ phiếu AAPL bằng mạng LSTM — coursework Deep Learning.
 
 ## Trạng thái hiện tại
-Repository chứa **bộ khung và tài liệu Define/Design đã thống nhất**. Chưa có implementation chạy được, dataset đã tải, checkpoint đã train hoặc kết quả thực nghiệm. Các thư mục module hiện có README mô tả trách nhiệm, không phải code đã hoàn thành.
+TV3 đã hoàn thiện kỹ thuật local: LSTM một bước/năm bước CPU float64, adapter TV2, trace và kiểm tra lưu/nạp checkpoint; 99/99 tests đạt. Hướng dẫn cài đặt và chạy: [TV3 Setup](docs/TV3_Setup_and_Reproduce.md); kết quả: [TV3 Final Handoff](reports/audits/TV3_Final_Handoff.md); quá trình và outputs: [notebook TV3](notebooks/03_TV3_LSTM_Development_and_Tests.ipynb). Dataset/scaler/prepared nhận qua gói bàn giao riêng, không nằm trong Git. Chưa có checkpoint AAPL huấn luyện chính thức, API/web hoàn chỉnh hoặc xác nhận trên máy người nhận.
+
+Source LSTM hiện hành ở `backend/models/lstm_one_step/`, `backend/models/lstm_multi_step/` và `backend/model_trace/`. Nếu nhánh còn các thư mục `lstm_one_step/`, `lstm_multi_step/`, `model_trace/` tại gốc từ lần upload cũ, chúng là bản lịch sử; sử dụng public imports `backend.models...` và `backend.model_trace` theo tài liệu TV3.
 
 ## Bài toán và phạm vi
 - Nguồn: Yahoo Finance, thu thập bằng yfinance; một mã **AAPL**, dữ liệu ngày **2015–2025**.
@@ -41,8 +43,8 @@ Không đặt trước điều kiện LSTM phải thắng baseline; kết luận
 | experiments/ | Cấu hình và logs/kết quả từng run |
 | artifacts/ | Scaler, checkpoint và release |
 | logs/ | Logs web/audit vận hành |
-| tests/ | Vị trí kiểm tra có ý nghĩa theo module, chưa có test thực thi |
-| scripts/, notebooks/ | Entry points và khảo sát/trình diễn sẽ triển khai |
+| tests/ | Có suite TV1 dữ liệu; các phần model/train/API triển khai riêng |
+| scripts/, notebooks/ | Entry points TV1, notebook có output và bằng chứng tái lập |
 
 Xem [FILE_STRUCTURE.md](FILE_STRUCTURE.md) để biết danh sách file.
 
@@ -62,13 +64,15 @@ TV1 dữ liệu; TV2 preprocessing/windowing; TV3 LSTM/trace; TV4 training LSTM;
 ## Cài đặt và chạy
 Hiện chưa có lệnh train/API/front-end đã kiểm chứng vì implementation và dependencies chưa có. Theo dõi [hướng dẫn cài đặt/chạy](docs/09_Setup_and_Run.md) và [chi tiết còn mở](docs/10_Open_Decisions.md). Không suy luận rằng clone repository là có thể mở web ngay.
 
+Phần TV1 đã có [hướng dẫn cài đặt và tái lập](docs/TV1_Setup_and_Reproduce.md), [notebook kết quả](notebooks/01_AAPL_Data_Exploration.ipynb) và bộ dependencies ghim. Nhận source/dataset đúng version từ các link trong hướng dẫn; không tải lại Yahoo để thay snapshot đã bàn giao.
+
 Khi có release đầy đủ, thành viên dùng dataset/model/scaler/config đã bàn giao để chạy inference **không cần train lại**. Hiện chưa có release đó.
 
 ## Dữ liệu, logs và Git
-.gitignore giữ hướng dẫn thư mục nhưng loại dữ liệu/checkpoint/logs sinh ra khỏi commit mặc định. Git chứa source/docs/config và các báo cáo có chủ đích. Kênh nhận artifacts sẽ được xác định trước bàn giao. Không đưa môi trường ảo hoặc thông tin bí mật lên Git.
+.gitignore giữ hướng dẫn thư mục nhưng loại dữ liệu/checkpoint/logs sinh ra khỏi commit mặc định. Git chứa source/docs/config và báo cáo có chủ đích. Kênh bàn giao TV1 là Drive Project_CW trong hướng dẫn; model release chưa có. Không đưa môi trường ảo hoặc thông tin bí mật lên Git.
 
 ## Sản phẩm coursework
-Bảy mục báo cáo: vấn đề/phạm vi; dữ liệu mẫu/mô tả; mã nguồn; hướng dẫn cài đặt/chạy; demo hệ thống; so sánh baseline; phân tích lỗi/giới hạn. Các file reports hiện là khung, chưa có kết quả.
+Bảy mục báo cáo: vấn đề/phạm vi; dữ liệu mẫu/mô tả; mã nguồn; hướng dẫn cài đặt/chạy; demo hệ thống; so sánh baseline; phân tích lỗi/giới hạn. Phần TV1 có số liệu/bằng chứng thực tế; các kết quả model/demo/so sánh chưa được tạo trong phần việc này.
 
 ## Trình tự triển khai
 Hoàn tất thiết kế → dữ liệu/baseline → LSTM một bước và đo CPU → khóa thực nghiệm → CNN/multi-step trên validation → test/phân tích → release → web tích hợp → kiểm tra máy khác/bàn giao. Web có thể làm song song bằng dữ liệu minh họa gắn nhãn; không dùng test để phát triển mô hình.
