@@ -1,0 +1,33 @@
+
+experiment_name: "lstm_multi_step_baseline"
+description: "LSTM direct multi-output five-step forecasting"
+model_type: "lstm_multi_step"
+
+data:
+  dataset_version: "v1"
+  ticker: "AAPL"
+  lookback: 30
+  forecast_length: 5
+
+model:
+  input_size: 1
+  hidden_size: 32
+  num_layers: 1
+
+training:
+  batch_size: 32
+  optimizer: "adam"
+  learning_rate: 0.001
+  loss_function: "mse"
+  max_epochs: 100
+  early_stopping:
+    patience: 10
+    monitor: "val_loss"
+    mode: "min"
+  gradient_clipping: null
+
+seeds: [42, 123, 456]
+
+output:
+  checkpoint_dir: "artifacts/checkpoints"
+  log_dir: "experiments/runs"
