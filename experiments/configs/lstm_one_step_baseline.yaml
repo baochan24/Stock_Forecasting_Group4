@@ -1,0 +1,36 @@
+
+experiment_name: lstm_one_step_baseline
+
+model_type: lstm_one_step
+
+data:
+  ticker: AAPL
+  lookback: 30
+  forecast_length: 1
+  dataset_version: aapl_daily_v1
+
+model:
+  input_size: 1
+  hidden_size: 32
+  num_layers: 1
+  output_size: 1
+
+training:
+  batch_size: 32
+  optimizer: adam
+  learning_rate: 0.001
+  loss_function: mse
+  max_epochs: 100
+  early_stopping:
+    patience: 10
+    monitor: val_loss
+    mode: min
+
+seeds:
+  - 42
+  - 123
+  - 456
+
+output:
+  checkpoint_dir: artifacts/checkpoints
+  log_dir: experiments/runs
