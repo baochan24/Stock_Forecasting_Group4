@@ -1,5 +1,10 @@
 # File Structure
 
+## TV4 publication
+
+Training source is in backend/training. The single experiment runner is backend/experiments/runner/experiment_runner.py. Management contains experiment_manager.py. Official configs are in experiments/configs/tv4_official. The executed notebook is notebooks/04_TV4_Training_and_Experiments.ipynb. TV4 scripts, training tests and audit reports are included with their required model/data source dependencies.
+
+
 Đây là bộ khung có tài liệu trách nhiệm, chưa phải ứng dụng chạy được. Không thêm framework/API train/đăng nhập/giao dịch/cập nhật real-time ngoài phạm vi đã chốt.
 
 ## Thư mục cấp cao

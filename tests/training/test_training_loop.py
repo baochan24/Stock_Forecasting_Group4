@@ -27,24 +27,15 @@ def get_config(max_epochs=3, patience=2):
 
 
 def mock_checkpoint(monkeypatch):
-    fake_module = types.ModuleType("backend.artifacts")
     saved = []
-
-    def save_checkpoint(model, optimizer, epoch, val_loss, path):
-        Path(path).write_bytes(b"test checkpoint")
-        saved.append({
-            "epoch": epoch,
-            "val_loss": val_loss,
-        })
-
-    fake_module.save_checkpoint = save_checkpoint
-    monkeypatch.setitem(sys.modules, "backend.artifacts", fake_module)
-
-    return saved
+    def saver(model, epoch, val_loss):
+        saved.append({"epoch": epoch, "val_loss": val_loss})
+        return Path("synthetic_checkpoint")
+    return saved, saver
 
 
 def test_best_checkpoint_is_saved(monkeypatch, tmp_path):
-    saved = mock_checkpoint(monkeypatch)
+    saved, saver = mock_checkpoint(monkeypatch)
 
     losses = iter([
         1.0, 0.5,
@@ -65,7 +56,8 @@ def test_best_checkpoint_is_saved(monkeypatch, tmp_path):
         train_loader=[],
         val_loader=[],
         config=get_config(max_epochs=3),
-        checkpoint_dir=str(tmp_path),
+        checkpoint_dir=None,
+        checkpoint_saver=saver,
         run_id="test_best",
     )
 
@@ -76,7 +68,7 @@ def test_best_checkpoint_is_saved(monkeypatch, tmp_path):
 
 
 def test_early_stopping(monkeypatch, tmp_path):
-    mock_checkpoint(monkeypatch)
+    _, saver = mock_checkpoint(monkeypatch)
 
     losses = iter([
         1.0, 0.5,
@@ -97,7 +89,8 @@ def test_early_stopping(monkeypatch, tmp_path):
         train_loader=[],
         val_loader=[],
         config=get_config(max_epochs=10, patience=2),
-        checkpoint_dir=str(tmp_path),
+        checkpoint_dir=None,
+        checkpoint_saver=saver,
         run_id="test_early_stop",
     )
 
@@ -107,7 +100,7 @@ def test_early_stopping(monkeypatch, tmp_path):
 
 
 def test_multi_step_targets_supported(monkeypatch, tmp_path):
-    mock_checkpoint(monkeypatch)
+    _, saver = mock_checkpoint(monkeypatch)
 
     inputs = torch.randn(8, 1)
     targets = torch.randn(8, 5)
@@ -124,7 +117,8 @@ def test_multi_step_targets_supported(monkeypatch, tmp_path):
         train_loader=loader,
         val_loader=loader,
         config=get_config(max_epochs=1, patience=1),
-        checkpoint_dir=str(tmp_path),
+        checkpoint_dir=None,
+        checkpoint_saver=saver,
         run_id="test_multi_step",
     )
 
@@ -133,7 +127,7 @@ def test_multi_step_targets_supported(monkeypatch, tmp_path):
 
 
 def test_output_target_shape_mismatch(monkeypatch, tmp_path):
-    mock_checkpoint(monkeypatch)
+    _, saver = mock_checkpoint(monkeypatch)
 
     inputs = torch.randn(8, 1)
     targets = torch.randn(8, 5)
@@ -151,7 +145,8 @@ def test_output_target_shape_mismatch(monkeypatch, tmp_path):
             train_loader=loader,
             val_loader=loader,
             config=get_config(max_epochs=1),
-            checkpoint_dir=str(tmp_path),
+            checkpoint_dir=None,
+        checkpoint_saver=saver,
             run_id="test_shape_error",
         )
 def test_training_reduces_loss(monkeypatch, tmp_path):
@@ -181,12 +176,7 @@ def test_training_reduces_loss(monkeypatch, tmp_path):
     with torch.no_grad():
         initial_loss = torch.mean((model(x) - y) ** 2).item()
 
-    # Mock checkpoint saving because TV6 owns that module.
-    monkeypatch.setattr(
-        trainer,
-        "_save_best_checkpoint",
-        lambda *args, **kwargs: None,
-    )
+    _, saver = mock_checkpoint(monkeypatch)
 
     config = {
         "training": {
@@ -208,7 +198,8 @@ def test_training_reduces_loss(monkeypatch, tmp_path):
         train_loader=loader,
         val_loader=loader,
         config=config,
-        checkpoint_dir=str(tmp_path),
+        checkpoint_dir=None,
+        checkpoint_saver=saver,
         run_id="loss_reduction_test",
     )
 

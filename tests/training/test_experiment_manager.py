@@ -160,8 +160,24 @@ def test_epoch_logs_csv_format(tmp_path):
             "val_loss",
             "learning_rate",
             "time_seconds",
+            "train_seconds",
+            "validation_seconds",
+            "val_mse_per_horizon",
         ]
 
     assert len(rows) == 2
     assert rows[0]["epoch"] == "1"
     assert float(rows[1]["val_loss"]) == 0.02
+
+
+def test_epoch_diagnostics_survive_csv(tmp_path):
+    import json
+    entry = dict(epoch=1, train_loss=.2, val_loss=.3, learning_rate=.001,
+                 time_seconds=2., train_seconds=1.5, validation_seconds=.5,
+                 val_mse_per_horizon=[.1, .2, .3, .4, .5])
+    path = manager.save_epoch_logs([entry], tmp_path)
+    with path.open() as stream:
+        actual, = list(csv.DictReader(stream))
+    assert float(actual["train_seconds"]) == 1.5
+    assert float(actual["validation_seconds"]) == .5
+    assert json.loads(actual["val_mse_per_horizon"]) == entry["val_mse_per_horizon"]

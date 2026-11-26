@@ -1,5 +1,7 @@
 # Module Interfaces — Hợp đồng code giữa các module
 
+Current TV4 implementation uses CPU float64 and an explicit checkpoint_saver callback. The runner supplies verified LSTM persistence. See docs/04_Data_Flow_and_Contracts.md and backend/training/README.md for the current contract. The remaining interface examples are historical design notes.
+
 Phiên bản: 1.0 — 13/11/2026
 Trạng thái: bản đặc tả trước triển khai. Function signatures là điểm khởi đầu, có thể điều chỉnh khi triển khai nhưng phải thống nhất nhóm và ghi Decision Log.
 

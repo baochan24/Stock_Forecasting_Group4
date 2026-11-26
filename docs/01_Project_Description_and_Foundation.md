@@ -6,6 +6,14 @@ Trạng thái: tổng hợp các quyết định thiết kế đã thống nhấ
 
 ## Phần 1. Project Description
 
+### Đối chiếu đề gốc — 21/11/2026
+
+Đã đọc trực tiếp `docs/đề_yêu_cầu.md` và `docs/yêu_cầu_mẫu_đề_tài.md` sau khi người dùng lưu nội dung. Topic 4 xác định regression, Yahoo Finance, LSTM dự báo giá phiên tiếp theo từ chuỗi quá khứ; phần mở rộng là multi-step và CNN vs. LSTM. Thiết kế hiện tại phù hợp hướng này. AAPL, adjusted close, 2015–2025, CPU, lookback 30, split năm, StandardScaler, persistence và direct 5 bước là lựa chọn cụ thể của nhóm, không phải thông số đề gốc ghi bắt buộc.
+
+Mẫu đăng ký yêu cầu 10 nội dung: tên đề tài, hướng chính, người dùng/vấn đề, mục tiêu đo lường, dữ liệu, phạm vi, phương pháp, sản phẩm, đánh giá, kế hoạch/rủi ro. Hướng chính của đề tài này là AI dự đoán. Bảy nhóm báo cáo gồm vấn đề/phạm vi; dữ liệu mẫu/mô tả; source; cài đặt/chạy; demo; so sánh baseline; phân tích lỗi/giới hạn — khớp cấu trúc reports hiện có. Khớp cấu trúc không có nghĩa các báo cáo đã hoàn thành.
+
+Các điểm còn cần hoàn thiện khi tổng hợp đăng ký/bàn giao: bằng chứng và giới hạn quyền sử dụng/phân phối dữ liệu Yahoo Finance; phương án dự phòng khi nguồn tải không khả dụng (snapshot cố định hỗ trợ tái lập nhưng chưa tự là nguồn thay thế được phê duyệt); mốc hoàn thành thực tế và rủi ro/phụ thuộc tương ứng. Không tự thay nguồn hoặc gán quyền sử dụng khi chưa xác minh. Các việc này không làm thay đổi flow TV2 đang thực hiện. Các trạng thái dựng nền trong bản 1.0 bên dưới là lịch sử; xem audit mới nhất để biết tiến độ code/dữ liệu.
+
 ### 1. Project name
 
 **LSTM-Based Stock Price Forecasting: A Case Study on AAPL**

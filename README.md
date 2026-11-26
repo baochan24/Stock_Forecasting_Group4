@@ -1,5 +1,10 @@
 # Stock Forecasting Group 4
 
+## TV4 completed locally
+
+The TV4 branch includes the training pipeline, required TV1-TV3 source dependencies, 69 passing training tests, official experiment configurations and an executed notebook. Start with [TV4 setup](docs/TV4_Setup_and_Reproduce.md) and [handoff instructions](docs/TV4_Handoff_TV5_TV6.md). [Training notebook](notebooks/04_TV4_Training_and_Experiments.ipynb) contains items 1-10. Raw data, scalers, checkpoints, generated logs, ZIPs and virtual environments are delivered separately through the local TV4 handoff package.
+
+
 **LSTM-Based Stock Price Forecasting: A Case Study on AAPL**  
 Dự báo giá cổ phiếu AAPL bằng mạng LSTM — coursework Deep Learning.
 

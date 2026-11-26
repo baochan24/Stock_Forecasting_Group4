@@ -1,0 +1,36 @@
+experiment_name: lstm_one_step_lb30_common60
+model_type: lstm_one_step
+data:
+  ticker: AAPL
+  lookback: 30
+  forecast_length: 1
+  dataset_version: aapl_2015_2025_acq_20261119T141302002415Z
+  scaler_id: aapl_scaler_20261120T124720810874Z
+  prepared_id: tv4_lb30_20261125T120957429763Z
+  scaler_manifest_sha256: 695905a39615e336f83de1ab781f4f893e599e59a5e2685d1e77e4881174b4f5
+  prepared_manifest_sha256: a5e946266bc385cecaec1deae6242a7216429b02cc259ffe5069221f066d4150
+  common_history: true
+model:
+  input_size: 1
+  hidden_size: 32
+  num_layers: 1
+  output_size: 1
+training:
+  batch_size: 32
+  optimizer: adam
+  learning_rate: 0.001
+  loss_function: mse
+  max_epochs: 100
+  early_stopping:
+    patience: 10
+    monitor: val_loss
+    mode: min
+seeds:
+- 42
+- 123
+- 456
+output:
+  checkpoint_dir: artifacts/checkpoints
+  log_dir: experiments/runs
+runtime:
+  torch_threads: 1

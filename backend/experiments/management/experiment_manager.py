@@ -34,8 +34,8 @@ def generate_run_id(
     if any(c in model_type + experiment_name for c in "/\\"):
         raise ValueError("Names must not contain path separators.")
 
-    timestamp = timestamp or datetime.now()
-    time_part = timestamp.strftime("%Y%m%d_%H%M%S")
+    time_part = (timestamp.strftime("%Y%m%d_%H%M%S") if timestamp is not None
+                 else datetime.now().strftime("%Y%m%d_%H%M%S_%f"))
 
     return (
         f"{model_type}__{experiment_name}"
@@ -82,20 +82,25 @@ def save_epoch_logs(
         "val_loss",
         "learning_rate",
         "time_seconds",
+        "train_seconds",
+        "validation_seconds",
+        "val_mse_per_horizon",
     ]
 
     output_path = Path(run_dir) / "epoch_logs.csv"
 
-    with output_path.open("w", newline="", encoding="utf-8") as file:
+    temporary = output_path.with_suffix(".csv.tmp")
+    with temporary.open("w", newline="", encoding="utf-8") as file:
         writer = csv.DictWriter(file, fieldnames=columns)
         writer.writeheader()
 
         for log in epoch_logs:
             writer.writerow({
-                column: log.get(column, "")
+                column: json.dumps(log[column]) if isinstance(log.get(column), list) else log.get(column, "")
                 for column in columns
             })
 
+    temporary.replace(output_path)
     return output_path
 
 
@@ -135,9 +140,14 @@ def save_run_metadata(
     start_time: datetime | None = None,
     dataset_hash: str | None = None,
     scaler_path: str | None = None,
+    provenance: dict | None = None,
+    *,
+    status: str = "completed",
+    error: dict | None = None,
+    source_files: dict | None = None,
 ) -> Path:
     """Save experiment environment and training results as JSON."""
-    end_time = datetime.now()
+    end_time = datetime.now(start_time.tzinfo if start_time else None)
     start_time = start_time or end_time
 
     git_commit, git_dirty = _get_git_info()
@@ -158,7 +168,15 @@ def save_run_metadata(
         "git_commit": git_commit,
         "git_dirty": git_dirty,
         "start_time": start_time.isoformat(),
-        "end_time": end_time.isoformat(),
+        "end_time": None if status == "running" else end_time.isoformat(),
+        "status": status,
+        "error": error,
+        "source_files_sha256": source_files,
+        "config": config,
+        "torch_threads": torch.get_num_threads(),
+        "torch_interop_threads": torch.get_num_interop_threads(),
+        "selection_metric": "val_loss",
+        "epochs_completed": len(metrics.get("epoch_logs", [])),
         "total_time_seconds": metrics.get("total_time_seconds"),
         "best_epoch": metrics.get("best_epoch"),
         "best_val_loss": metrics.get("best_val_loss"),
@@ -167,10 +185,16 @@ def save_run_metadata(
         "cpu_info": platform.processor() or platform.machine(),
     }
 
+    if provenance is not None:
+        metadata.update(provenance)
+        metadata["dataset_hash"] = provenance["source_hashes"]["validated"]
+
     output_path = Path(path) / "metadata.json"
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    with output_path.open("w", encoding="utf-8") as file:
-        json.dump(metadata, file, indent=4, ensure_ascii=False)
+    temporary = output_path.with_suffix(".json.tmp")
+    with temporary.open("w", encoding="utf-8") as file:
+        json.dump(metadata, file, indent=4, ensure_ascii=False, allow_nan=False)
+    temporary.replace(output_path)
 
     return output_path
