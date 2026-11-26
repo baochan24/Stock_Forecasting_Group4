@@ -1,0 +1,7 @@
+{
+  "backend/data/preparation/contracts.py": "d6b4fddf8c359fa04e44b5c32ed3efc117e69ac83afd105728776135c508e6b5",
+  "backend/data/preparation/README.md": "a221572e18e1e6e3ec5b0ddc1ff1f6419f50a2de4a9e507ea99a30cc4418777f",
+  "backend/data/preparation/tensors.py": "43e1706763fef8702539dc85a78ee7db23a4135c8de732e6052778572df99eac",
+  "backend/data/preparation/windows.py": "7b443dc6e14544c14e8e0b1474826a90cc34f9df5139f80d61897c195499e584",
+  "backend/artifacts/prepared.py": "b7272cda7f682fd673b864d17fcb28caa1d252eb2157cf031d4d3b47f3773dbb"
+}

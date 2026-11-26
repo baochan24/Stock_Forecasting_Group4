@@ -4,7 +4,11 @@
 Dự báo giá cổ phiếu AAPL bằng mạng LSTM — coursework Deep Learning.
 
 ## Trạng thái hiện tại
-Repository chứa **bộ khung và tài liệu Define/Design đã thống nhất**. Chưa có implementation chạy được, dataset đã tải, checkpoint đã train hoặc kết quả thực nghiệm. Các thư mục module hiện có README mô tả trách nhiệm, không phải code đã hoàn thành.
+TV5 đã hoàn thành mười hạng mục trong phạm vi local, gồm CNN CPU float64, ba run chính thức, checkpoint/provenance, so sánh validation và monitoring. Bộ CNN/training/evaluation đạt162/162 tests; gói bàn giao đã kiểm ở thư mục giải nén riêng. Xem [TV5 Setup](docs/TV5_Setup_and_Handoff.md), [audit cuối](reports/audits/TV5_Final_Handoff.md) và [notebook TV5](notebooks/05_TV5_CNN_Development_and_Experiments.ipynb). Source TV1–TV4 cần thiết cho pipeline được giữ cùng nhánh.
+
+Dataset/scaler/prepared/checkpoints/logs và gói ZIP nhận qua bàn giao artifacts riêng, không nằm trong Git. Clone source có thể chạy unit tests sau setup; Run All notebook cần khôi phục gói đúng relative paths trước. API/web, đánh giá test cuối và xác nhận trên máy người nhận vẫn thuộc các bước TV6 còn lại. Trên validation2023, persistence có MAE/RMSE thấp hơn các CNN/LSTM đã so sánh.
+
+Source LSTM hiện hành ở `backend/models/lstm_one_step/`, `backend/models/lstm_multi_step/` và `backend/model_trace/`; sử dụng public imports `backend.models...` và `backend.model_trace` theo tài liệu TV3. Các bản upload cũ trong ba thư mục cùng tên tại gốc đã được xác định là dư thừa để loại khỏi nhánh TV3; lịch sử Git vẫn giữ các bản trước.
 
 ## Bài toán và phạm vi
 - Nguồn: Yahoo Finance, thu thập bằng yfinance; một mã **AAPL**, dữ liệu ngày **2015–2025**.
@@ -41,8 +45,8 @@ Không đặt trước điều kiện LSTM phải thắng baseline; kết luận
 | experiments/ | Cấu hình và logs/kết quả từng run |
 | artifacts/ | Scaler, checkpoint và release |
 | logs/ | Logs web/audit vận hành |
-| tests/ | Vị trí kiểm tra có ý nghĩa theo module, chưa có test thực thi |
-| scripts/, notebooks/ | Entry points và khảo sát/trình diễn sẽ triển khai |
+| tests/ | Có suite TV1 dữ liệu; các phần model/train/API triển khai riêng |
+| scripts/, notebooks/ | Entry points TV1, notebook có output và bằng chứng tái lập |
 
 Xem [FILE_STRUCTURE.md](FILE_STRUCTURE.md) để biết danh sách file.
 
@@ -62,13 +66,15 @@ TV1 dữ liệu; TV2 preprocessing/windowing; TV3 LSTM/trace; TV4 training LSTM;
 ## Cài đặt và chạy
 Hiện chưa có lệnh train/API/front-end đã kiểm chứng vì implementation và dependencies chưa có. Theo dõi [hướng dẫn cài đặt/chạy](docs/09_Setup_and_Run.md) và [chi tiết còn mở](docs/10_Open_Decisions.md). Không suy luận rằng clone repository là có thể mở web ngay.
 
+Phần TV1 đã có [hướng dẫn cài đặt và tái lập](docs/TV1_Setup_and_Reproduce.md), [notebook kết quả](notebooks/01_AAPL_Data_Exploration.ipynb) và bộ dependencies ghim. Nhận source/dataset đúng version từ các link trong hướng dẫn; không tải lại Yahoo để thay snapshot đã bàn giao.
+
 Khi có release đầy đủ, thành viên dùng dataset/model/scaler/config đã bàn giao để chạy inference **không cần train lại**. Hiện chưa có release đó.
 
 ## Dữ liệu, logs và Git
-.gitignore giữ hướng dẫn thư mục nhưng loại dữ liệu/checkpoint/logs sinh ra khỏi commit mặc định. Git chứa source/docs/config và các báo cáo có chủ đích. Kênh nhận artifacts sẽ được xác định trước bàn giao. Không đưa môi trường ảo hoặc thông tin bí mật lên Git.
+.gitignore giữ hướng dẫn thư mục nhưng loại dữ liệu/checkpoint/logs sinh ra khỏi commit mặc định. Git chứa source/docs/config và báo cáo có chủ đích. Kênh bàn giao TV1 là Drive Project_CW trong hướng dẫn; model release chưa có. Không đưa môi trường ảo hoặc thông tin bí mật lên Git.
 
 ## Sản phẩm coursework
-Bảy mục báo cáo: vấn đề/phạm vi; dữ liệu mẫu/mô tả; mã nguồn; hướng dẫn cài đặt/chạy; demo hệ thống; so sánh baseline; phân tích lỗi/giới hạn. Các file reports hiện là khung, chưa có kết quả.
+Bảy mục báo cáo: vấn đề/phạm vi; dữ liệu mẫu/mô tả; mã nguồn; hướng dẫn cài đặt/chạy; demo hệ thống; so sánh baseline; phân tích lỗi/giới hạn. Phần TV1 có số liệu/bằng chứng thực tế; các kết quả model/demo/so sánh chưa được tạo trong phần việc này.
 
 ## Trình tự triển khai
 Hoàn tất thiết kế → dữ liệu/baseline → LSTM một bước và đo CPU → khóa thực nghiệm → CNN/multi-step trên validation → test/phân tích → release → web tích hợp → kiểm tra máy khác/bàn giao. Web có thể làm song song bằng dữ liệu minh họa gắn nhãn; không dùng test để phát triển mô hình.
