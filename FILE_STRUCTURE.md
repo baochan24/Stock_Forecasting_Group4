@@ -173,6 +173,11 @@ TV3 cleanup 23/11/2026: source LSTM/trace duy nhất dùng trong project nằm t
 - `docs/09_Setup_and_Run.md`
 - `docs/10_Open_Decisions.md`
 - `docs/11_Decision_Log.md`
+- `docs/13_Environment_and_Dependencies.md`
+- `docs/14_Module_Interfaces.md`
+- `docs/15_Experiment_Config_Schema.md`
+- `docs/16_Testing_Strategy.md`
+- `docs/17_Coding_Conventions.md`
 - `experiments/configs/README.md`
 - `experiments/runs/README.md`
 - `frontend/README.md`

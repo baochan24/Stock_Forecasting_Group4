@@ -1,99 +1,105 @@
-# Quy tắc làm việc — coursework Stock Forecasting Group 4
+# Quy tắc làm việc — Stock Forecasting Group 4
 
-Cập nhật 20/11/2026 theo yêu cầu trực tiếp của người dùng. Áp dụng tại workspace này cho code, audit PR, notebook, báo cáo và quyết định triển khai. Đây là đồ án coursework lớn: tính đúng phương pháp, bằng chứng và khả năng giải thích quan trọng hơn số lượng tính năng hoặc tốc độ đánh dấu hoàn thành.
+Tài liệu này là bộ quy tắc bắt buộc cho mọi thành viên (TV1–TV6) và mọi công cụ AI hỗ trợ khi làm việc trong repository. Không ai được phép vi phạm các quy tắc dưới đây trừ khi toàn nhóm thống nhất sửa đổi và ghi vào Decision Log.
 
-## 1. Đọc cốt lõi trước khi code hoặc quyết định
+---
 
-Hai tài liệu đề gốc đã có nội dung và được đọc ngày 21/11/2026:
+## 1. Cấu trúc và tổ chức
 
-- `docs/đề_yêu_cầu.md`: Topic 4 — Regression, Yahoo Finance, dự báo giá phiên tiếp theo từ chuỗi quá khứ bằng LSTM; mở rộng multi-step và CNN vs. LSTM.
-- `docs/yêu_cầu_mẫu_đề_tài.md`: 10 mục đăng ký đề tài và 7 nhóm sản phẩm báo cáo cần bao phủ.
-
-Đọc hai file này trước danh sách thiết kế dưới đây khi bắt đầu hạng mục mới; nếu đã đọc và không đổi, dùng lại ngữ cảnh. Phân biệt yêu cầu đề gốc với quyết định nhóm: AAPL/2015–2025/lookback 30/split/CPU/StandardScaler/5 bước/persistence là thiết kế cụ thể của project, không gán thành câu chữ bắt buộc của đề gốc. Hai phần mở rộng đã được nhóm đưa vào phạm vi project, không tự bỏ.
-
-Khi nghiệm thu sản phẩm, đối chiếu đủ 10 mục đăng ký: tên, hướng chính, người dùng/vấn đề, mục tiêu đo lường, dữ liệu (kể cả quyền sử dụng/phương án thay thế), phạm vi, phương pháp/baseline, sản phẩm, đánh giá, kế hoạch/rủi ro. Phần chưa có bằng chứng phải ghi còn mở; không bịa quyền sử dụng, deadline hoặc kết quả để điền đủ mẫu. Flow TV2 vẫn giữ nguyên vì đề gốc không thay contract preprocessing đã chốt.
-
-Trước tác vụ triển khai mới, đọc các tài liệu sau theo thứ tự; nếu đã đọc trong phiên và tài liệu không đổi, dùng lại ngữ cảnh, không cần đọc lặp máy móc:
-
-1. `docs/01_Project_Description_and_Foundation.md`: bài toán, câu hỏi nghiên cứu, phạm vi, quy tắc thực nghiệm và yêu cầu coursework.
-2. `docs/03_Module_Boundaries.md` và `docs/04_Data_Flow_and_Contracts.md`: trách nhiệm module, chiều phụ thuộc, input/output/ngày/shape.
-3. `docs/12_Team_Assignment.md`: phần việc TV1–TV6 và đầu ra bàn giao.
-4. `docs/11_Decision_Log.md` và `docs/10_Open_Decisions.md`: điều đã chốt, điều còn mở; không tự biến đề xuất thành quyết định.
-5. README của module sắp sửa, code/test liên quan và audit mới nhất của hạng mục đang làm.
-
-Đọc thêm `docs/02_System_Architecture.md` khi đổi cách ghép module; `docs/05_API_Contract.md` khi làm API; tài liệu setup/reproducibility khi đổi môi trường hoặc bàn giao. Đối chiếu đề gốc Topic 4 và yêu cầu coursework nếu chúng có trong workspace. Nếu thiếu, nêu rõ chưa đối chiếu trực tiếp đề gốc, không bịa nội dung; dùng tài liệu project đã chốt cho công việc không phụ thuộc phần thiếu.
-
-Trước khi sửa, xác định được: **đang làm mục nào → phục vụ yêu cầu nào của bài → nhận gì → trả gì → kiểm chứng bằng gì**. Giải thích ngắn cho người dùng khi bắt đầu hạng mục. Không code theo riêng tiêu đề PR hoặc đoạn hội thoại gần nhất mà bỏ contract gốc.
-
-Tài liệu mô tả thiết kế có thể ghi trạng thái ở thời điểm dựng nền. Trạng thái triển khai hiện tại phải đối chiếu source, kết quả chạy và audit mới nhất; không coi trạng thái lịch sử là bằng chứng hiện tại. Khi tài liệu và code mâu thuẫn, ghi rõ mâu thuẫn và giải quyết trong phạm vi đã được yêu cầu; không tự sửa thiết kế để hợp thức hóa code sai.
-
-## 2. Mục tiêu và phạm vi cố định
-
-- Bài toán chính: dùng 30 phiên adjusted close AAPL để dự báo adjusted close phiên tiếp theo; đánh giá LSTM so với persistence.
-- Yahoo Finance/yfinance, dữ liệu ngày 2015–2025, đơn vị USD, một đặc trưng giá; ghi chính sách điều chỉnh hồi cứu và giới hạn point-in-time.
-- Phạm vi mô hình: LSTM một bước, CNN 1D một bước, LSTM direct multi-output năm bước và persistence tương ứng. CPU, Python/PyTorch theo thiết kế.
-- Không yêu cầu LSTM thắng baseline; không dùng biểu đồ bám giá làm bằng chứng hiệu quả. Không suy rộng thành lợi nhuận giao dịch.
-- Không tự thêm mô hình, ticker, giao dịch, đăng nhập, real-time hoặc tính năng ngoài Define/Design. Cấu hình khởi đầu chưa phải cấu hình tối ưu đã chứng minh.
-- Báo cáo phải bao phủ: vấn đề/phạm vi, dữ liệu, mã nguồn, cài đặt/chạy, demo, so sánh baseline, phân tích lỗi/giới hạn.
-
-## 3. Bám flow, làm từng hạng mục
-
-Flow toàn project: **TV1 dữ liệu → TV2 preprocessing → TV3/TV4 LSTM và training → TV5 CNN cùng pipeline → TV6 đánh giá/tích hợp/phát hành**. Các thành viên có thể làm độc lập theo contract; không coi phần sau hoàn thành khi đầu vào chưa được xác minh.
-
-Flow TV2 đang áp dụng:
-
-| Mục | Phạm vi |
+| Quy tắc | Mô tả |
 |---|---|
-| 1 | Module nền, interface, kiểm tra đầu vào |
-| 2 | Tiếp nhận snapshot TV1, xác minh hash/metadata và giữ dataset_version |
-| 3 | Chia tập theo ngày target, bảo toàn lịch sử cho windowing |
-| 4 | Fit scaler train, lưu/nạp và metadata tương ứng |
-| 5 | Scale/inverse dùng scaler đã lưu, shape và dung sai |
-| 6 | Windowing một bước, lookback 30 |
-| 7 | Windowing năm bước, toàn bộ target cùng split |
-| 8 | Forecast Input/Target riêng, ID/ngày/version/shape |
-| 9 | Audit leakage, đối chiếu cửa sổ bằng tay, kiểm tra ranh giới |
-| 10 | Môi trường, lệnh tái lập, manifest và bàn giao consumer |
+| **Không thêm thư mục cấp cao mới** | Chỉ dùng các thư mục đã có: `backend/`, `frontend/`, `docs/`, `reports/`, `data/`, `experiments/`, `artifacts/`, `logs/`, `tests/`, `scripts/`, `notebooks/`. Cần thư mục mới phải thảo luận và ghi Decision Log. |
+| **Không đổi tên, di chuyển hoặc xóa thư mục/file đã có** | Mọi thay đổi cấu trúc phải được nhóm trưởng (TV6) duyệt và cập nhật `FILE_STRUCTURE.md`. |
+| **Thêm file đúng vị trí** | File code đặt trong module tương ứng của `backend/` hoặc `frontend/`. File tài liệu vào `docs/`. Báo cáo vào `reports/`. Test vào `tests/<module>/`. |
+| **Giữ README module** | Không xóa hoặc ghi đè các `README.md` mô tả trách nhiệm module. Có thể bổ sung thông tin nhưng không thay đổi trách nhiệm đã chốt. |
 
-Trạng thái cập nhật ở `reports/audits/TV2_PR_Audit_20261120.md`, không dùng rule.md làm log hoàn thành. Tại thời điểm lập rule: mục 1–2 đã có bằng chứng local, bước kế tiếp là mục 3. Mọi phiên sau phải kiểm tra trạng thái thực tế mới nhất.
+## 2. Phạm vi dự án
 
-Khi người dùng yêu cầu một mục, hoàn thành mục đó và các phụ thuộc cần thiết; không tự triển khai các mục sau hoặc chuyển sang API/model/UI. Chỉ báo trước bước tiếp theo. Audit PR chỉ đọc/kiểm tra và báo cáo, không mặc nhiên merge/push. PR mới có thể tham khảo, nhưng phải so với code local và contract trước khi tiếp nhận; không ghi đè phần đã sửa bằng code kém phù hợp hơn.
+| Quy tắc | Mô tả |
+|---|---|
+| **Chỉ AAPL, giá đóng cửa điều chỉnh, 2015–2025** | Không thêm mã cổ phiếu, loại giá hoặc khoảng thời gian khác nếu chưa thống nhất. |
+| **Ba mô hình + baseline** | LSTM một bước, CNN 1D một bước, LSTM multi-step năm bước, persistence baseline. Không thêm mô hình khác (Transformer, GRU, XGBoost…) trừ khi nhóm đồng ý và ghi Decision Log. |
+| **CPU only** | Không yêu cầu GPU. Code phải chạy được trên CPU. |
+| **Không mở rộng phạm vi** | Không thêm tính năng đăng nhập, giao dịch, cập nhật real-time, notification, hoặc bất cứ gì ngoài Define/Design đã chốt. |
 
-## 4. Bất biến dữ liệu và thực nghiệm
+## 3. Dữ liệu và thực nghiệm
 
-- Split theo **ngày target**: train 2015–2022, validation 2023, test 2024–2025. Không random split theo thời gian.
-- Input được dùng lịch sử đã quan sát từ tập trước. Không cắt riêng lịch sử của từng tập rồi làm mất 30 target đầu validation/test. Không dùng tương lai để điền quá khứ.
-- Multi-step: cả 5 target cùng split, tính theo phiên dataset, không cộng ngày lịch. Không đưa target tương lai vào inference.
-- StandardScaler chỉ fit giá train; dùng lại cho validation/test/inference. Liên kết scaler với dataset/version/hash và phạm vi fit. Không nhân bản logic fit trong transforms.
-- Input LSTM `(B,30,1)`; target `(B,1)` hoặc `(B,5)`. CNN giữ cùng mẫu/ngày dù đổi thứ tự chiều. Dtype phải được mô tả ở adapter, không âm thầm thay shape/ý nghĩa feature.
-- Forecast Input và Target tuân thủ `docs/04_Data_Flow_and_Contracts.md`; inference chỉ nhận input. ID phải đủ phân biệt phiên bản/chế độ.
-- MAE/RMSE trên giá gốc USD, không làm tròn trước metric; multi-step báo từng horizon 1–5; so sánh trên cùng tập mẫu.
-- Chọn model/checkpoint bằng validation, khóa trước đánh giá test; không dùng test để tuning/chọn seed. Kiểm tra schema/hash/độ phủ của phân đoạn test không phải đánh giá hiệu năng model, phải phân biệt hai việc này.
-- Ba seed định trước cho cấu hình cuối; báo kết quả thật, không chọn seed thắng test. Không train hoặc tính metric nếu hạng mục hiện tại chỉ là nhận/chia dữ liệu.
+| Quy tắc | Mô tả |
+|---|---|
+| **Chia tập theo thời gian** | Train: 2015–2022, Validation: 2023, Test: 2024–2025. Không chia ngẫu nhiên. |
+| **Scaler chỉ fit trên train** | `StandardScaler` fit một lần trên tập train. Không fit lại khi inference hoặc trên validation/test. |
+| **Không dùng test để phát triển** | Test chỉ chạy sau khi chốt cấu hình bằng validation. Không chọn seed/hyperparameter dựa trên kết quả test. |
+| **Đánh giá trên giá gốc** | MAE/RMSE tính trên thang USD gốc, sau inverse transform. Không đánh giá trên giá chuẩn hóa. |
+| **Multi-step đánh giá từng bước** | Năm target của mỗi mẫu phải nằm cùng tập. Đánh giá riêng từng horizon step. |
+| **Ba seed cho cấu hình cuối** | Ba seed định trước, báo cáo từng seed, trung bình và độ lệch chuẩn. Không chọn seed thắng test. |
+| **Cùng tập mẫu khi so sánh** | Khi so sánh hai phương pháp, phải dùng cùng tập mẫu. Không bỏ mẫu thiếu mà không ghi rõ. |
+| **Không đưa target vào inference** | Module inference không nhận giá mục tiêu. Target chỉ dùng cho training/evaluation. |
 
-## 5. Tổ chức code, artifacts và môi trường
+## 4. Git và quản lý file
 
-- Giữ thư mục cấp cao hiện có: backend, frontend, docs, reports, data, experiments, artifacts, logs, tests, scripts, notebooks. Không tự di chuyển/đổi tên/xóa file hoặc cấu trúc đã có; thay đổi cấu trúc cần thống nhất theo quy tắc nhóm.
-- Code trong module tương ứng; tests trong `tests/<module>`; CLI/build/execute notebook trong `scripts/`; notebook trong `notebooks/`; audit trong `reports/audits/`. Giữ README trách nhiệm module, cập nhật chỉ mục `FILE_STRUCTURE.md` khi thêm file.
-- TV1 sở hữu acquisition/validation, TV2 preparation/transforms; TV3 models/trace LSTM, TV4 training, TV5 CNN, TV6 baseline/evaluation/inference/integration/API/frontend. Dùng lại validation/provenance TV1, không tạo pipeline cleaning song song trong TV2.
-- Snapshot gốc và run cũ bất biến. Không tự loại/sửa/điền phiên; cần xử lý phải có quyết định và phiên bản mới. Không hard-code số dòng/mẫu của một snapshot thành quy tắc cho mọi dataset.
-- Chỉ source/docs/config và báo cáo có chủ đích vào Git; không dataset/scaler/checkpoint/log sinh ra/ZIP/venv/secrets. Giữ thay đổi local/staged của người dùng, không reset/clean hoặc merge ngoài phạm vi.
-- Dùng môi trường phù hợp và ghi đúng Python/dependencies. Không chèn `.venv/eda_deps` vào sys.path; không sửa môi trường TV1 đã kiểm chứng để tiện chạy TV2. Thiếu dependency phải ghi nhận, không giả định chạy được.
-- Cập nhật file thực tế tại workspace/VS Code trước khi chia sẻ bản sao. Không tự upload Drive, commit/push hoặc merge nếu tác vụ hiện tại chưa cho phép; tôn trọng các ủy quyền cụ thể đang có trong phiên.
+| Quy tắc | Mô tả |
+|---|---|
+| **Tuân thủ .gitignore** | Không commit dataset, checkpoint, scaler, logs sinh ra, môi trường ảo hoặc thông tin bí mật. |
+| **Git chứa source/docs/config** | Chỉ commit mã nguồn, tài liệu, cấu hình và báo cáo có chủ đích. |
+| **Không ghi đè run cũ** | Mỗi run có ID duy nhất. Không xóa hoặc ghi đè kết quả của run trước. |
+| **Ghi cách nhận artifacts khi bàn giao** | Clone repository không đủ — phải có hướng dẫn nhận dataset, checkpoint, scaler tương ứng. |
 
-## 6. Nghiệm thu và cập nhật sau mỗi mục
+## 5. Ranh giới module và dependencies
 
-Yêu cầu bổ sung của người dùng23/11/2026: mỗi phần TV có notebook riêng trong notebooks/; mỗi hạng mục gồm cell giải thích mục tiêu/input/output, cell gọi backend và cell kiểm chứng/bằng chứng, lưu output thật để có thể trình bày giảng viên. Hiện TV1 dùng01_AAPL_Data_Exploration, TV2 dùng02_TV2_Preprocessing_and_Audit, TV3 dùng03_TV3_LSTM_Development_and_Tests. Sau mỗi mục tiếp theo phải đồng bộ notebook TV tương ứng cùng builder trong scripts và chạy lại các cells bị ảnh hưởng. Không sửa notebook TV1 để ghi phần TV khác; không nhân bản pipeline hoặc ghi pass trước khi chạy. TV4–TV6 tạo notebook khi bắt đầu phần đó, các phần chưa làm phải ghi chờ. Xem notebooks/README.md cho cách build/execute, giữ nguyên output không liên quan khi chỉ cập nhật một TV.
+| Quy tắc | Mô tả |
+|---|---|
+| **Front-end chỉ gọi API** | Không import trực tiếp logic backend trong frontend. |
+| **Models/baselines/transforms không phụ thuộc training/API/front-end** | Các module này phải độc lập, có thể test riêng. |
+| **API không gọi training** | Không có training endpoint. API chỉ phục vụ inference và đọc kết quả. |
+| **Inference không cập nhật trọng số** | Module inference chỉ đọc checkpoint, không train hoặc fine-tune. |
+| **Artifact Management không điều khiển training** | Chỉ lưu/nạp/kiểm tra, không quyết định khi nào train. |
+| **Không nhân bản logic** | Metric tính ở `evaluation/`, không viết lại ở nơi khác. Persistence tính ở `baselines/`, không lặp lại ở inference. |
 
-1. Kiểm tra code đúng contract và ranh giới module; chạy kiểm chứng phù hợp với thay đổi, ưu tiên test có khả năng phát hiện lỗi thực tế.
-2. Khi làm với dữ liệu thật, kiểm tra snapshot/hash đúng phiên bản và lưu bằng chứng; fixture tổng hợp/mock phải gắn nhãn rõ, không dùng thay chứng nhận end-to-end.
-3. Ghi lệnh, môi trường, kết quả, phạm vi được kiểm tra và giới hạn. Phân biệt chưa làm, có code, đã test local và đã xác nhận máy khác. Lỗi môi trường phải ghi riêng, không tính thành test đạt.
-4. Cập nhật audit/checklist và README liên quan sau thay đổi. Nếu hạng mục có notebook được người dùng chỉ định, cập nhật notebook local đó và output cần thiết; không ghi TV2 vào notebook EDA TV1 nếu chưa được yêu cầu. Không dùng Drive thay cho cập nhật local.
-5. Chỉ chốt hoàn thành khi có đầu ra và kiểm chứng đúng phạm vi. Một vài test helper đạt không chứng minh cả pipeline không leakage. Không tạo kết quả giả hoặc ghi hoàn thành trước khi chạy.
-6. Báo ngắn: đã làm gì, kiểm chứng gì, còn giới hạn nào, bước tiếp theo theo flow. Không tự đổi số thứ tự hoặc mở thêm checklist thay thế khiến người dùng mất dấu.
+## 6. Phân công và phối hợp
 
-## 7. Quyết định và thay đổi quy tắc
+| Quy tắc | Mô tả |
+|---|---|
+| **Làm đúng phần được giao** | TV1 dữ liệu, TV2 preprocessing, TV3 LSTM, TV4 training, TV5 CNN, TV6 baseline/evaluation/tích hợp/API/frontend. Xem chi tiết tại `docs/12_Team_Assignment.md`. |
+| **API và front-end là việc của TV6** | TV1–TV5 không tự ý triển khai API hoặc giao diện. |
+| **Thay đổi interface phải thống nhất** | Thay đổi shape, format dữ liệu hoặc hợp đồng giữa modules phải thông báo và đồng ý trước khi tích hợp. |
+| **Không thay Define/Design đơn phương** | Mọi thay đổi thiết kế phải thống nhất nhóm và ghi vào `docs/11_Decision_Log.md`. |
 
-Quyết định thay phạm vi, split, feature, shape/interface, mô hình, cách đánh giá hoặc trách nhiệm phải có sự thống nhất và ghi `docs/11_Decision_Log.md` kèm lý do/ảnh hưởng/người quyết định. Không coi PR hoặc gợi ý AI là phê duyệt thiết kế. Các sửa lỗi thường quy trong phạm vi người dùng đã giao được thực hiện trực tiếp, không hỏi lại chỉ vì có rule.
+## 7. Tài liệu và báo cáo
 
-Quy tắc này cụ thể hóa cách làm tại workspace theo yêu cầu người dùng; không phải tuyên bố cả nhóm đã bỏ phiếu đổi thiết kế. Bản `Stock_Forecasting_Group4/rule.md` thuộc checkout lồng bên trong được giữ nguyên. Với thiết kế project, đối chiếu tài liệu gốc và quyết định đã chốt; nếu có mâu thuẫn chưa giải quyết ảnh hưởng trực tiếp tác vụ, nêu rõ và xin làm rõ, đồng thời tiếp tục phần độc lập có thể làm.
+| Quy tắc | Mô tả |
+|---|---|
+| **Không điền kết quả trước khi chạy** | Chưa chạy phải ghi rõ "chưa kiểm chứng". Không bịa số liệu. |
+| **Ghi logs, audit và bằng chứng** | Mọi run phải có cấu hình, seed, logs, kết quả. Audit ghi đạt/không đạt kèm bằng chứng. |
+| **Phân biệt minh họa và kết quả thật** | Trace, ví dụ minh họa phải gắn nhãn rõ ràng, không trộn với kết quả thực nghiệm chính thức. |
+| **Bảy mục báo cáo coursework** | Vấn đề/phạm vi, dữ liệu, mã nguồn, cài đặt/chạy, demo, so sánh baseline, phân tích lỗi. Mỗi mục có người chịu trách nhiệm. |
+
+## 8. Quy tắc cho AI/công cụ hỗ trợ
+
+| Quy tắc | Mô tả |
+|---|---|
+| **Không tự ý thay đổi cấu trúc** | AI chỉ thêm file vào đúng vị trí, không tạo thư mục cấp cao mới, không đổi tên hoặc di chuyển file/thư mục. |
+| **Không mở rộng phạm vi** | Không đề xuất hoặc triển khai tính năng ngoài Define/Design đã chốt trừ khi người dùng yêu cầu rõ ràng. |
+| **Tuân thủ ranh giới module** | Code sinh ra phải đặt đúng module, đúng trách nhiệm, đúng dependency direction. |
+| **Không bịa dữ liệu hoặc kết quả** | Không tạo dữ liệu giả mạo mô phỏng kết quả thực nghiệm. Dữ liệu mẫu minh họa phải gắn nhãn rõ. |
+| **Giữ nhất quán với tài liệu hiện có** | Mọi code/config phải tương thích với hợp đồng dữ liệu trong `docs/04_Data_Flow_and_Contracts.md` và API trong `docs/05_API_Contract.md`. |
+| **Ghi thay đổi** | Thay đổi quan trọng phải gợi ý ghi vào Decision Log. |
+
+## 9. Release và bàn giao
+
+| Quy tắc | Mô tả |
+|---|---|
+| **Release liên kết đầy đủ** | Mỗi release phải có dataset, scaler, config, checkpoint, kết quả và audit tương thích. |
+| **Chọn seed phục vụ trước test** | Không chọn seed thắng test để đưa vào release. |
+| **Kiểm tra trên máy khác** | Ít nhất một thành viên khác phải chạy được release trước khi bàn giao. |
+| **Web nạp release cụ thể** | Front-end gửi `release_id`, không tự chọn checkpoint mới nhất. |
+
+## 10. Quy trình thay đổi quy tắc
+
+1. Đề xuất thay đổi và lý do.
+2. Thảo luận nhóm (ít nhất nhóm trưởng duyệt).
+3. Ghi vào `docs/11_Decision_Log.md` với ngày, nội dung và lý do.
+4. Cập nhật `rule.md` này.
+
+---
+
+> **Ghi chú**: File này là tài liệu tham chiếu nhanh tổng hợp các quy tắc từ Define/Design/Team Assignment. Nguồn gốc chi tiết nằm trong các tài liệu tại `docs/`. Khi có xung đột, ưu tiên tài liệu gốc và thảo luận nhóm.
