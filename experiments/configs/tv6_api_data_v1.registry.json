@@ -1,0 +1,80 @@
+{
+  "semantic": {
+    "release_id": "aapl-research-residual-v1",
+    "release_sha256": "a4b04a50c3e499b95407a5a8f9de379a40f6371bbb532cc01df90fdb2b5719a3",
+    "results": "artifacts/releases/aapl-research-residual-v1-api-data/results.csv",
+    "rows": 20144,
+    "experiments": [
+      {
+        "run_id": "2023_lstm_h1_residual_seed42",
+        "metadata": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h1_residual_seed42/metadata.json",
+        "history": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h1_residual_seed42/history.csv"
+      },
+      {
+        "run_id": "2023_lstm_h1_residual_seed123",
+        "metadata": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h1_residual_seed123/metadata.json",
+        "history": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h1_residual_seed123/history.csv"
+      },
+      {
+        "run_id": "2023_lstm_h1_residual_seed456",
+        "metadata": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h1_residual_seed456/metadata.json",
+        "history": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h1_residual_seed456/history.csv"
+      },
+      {
+        "run_id": "2023_lstm_h5_residual_seed42",
+        "metadata": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h5_residual_seed42/metadata.json",
+        "history": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h5_residual_seed42/history.csv"
+      },
+      {
+        "run_id": "2023_lstm_h5_residual_seed123",
+        "metadata": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h5_residual_seed123/metadata.json",
+        "history": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h5_residual_seed123/history.csv"
+      },
+      {
+        "run_id": "2023_lstm_h5_residual_seed456",
+        "metadata": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h5_residual_seed456/metadata.json",
+        "history": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h5_residual_seed456/history.csv"
+      },
+      {
+        "run_id": "cnn_one_step__cnn_one_step_option_a__seed42__20261126_114554_661786",
+        "metadata": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/cnn_one_step__cnn_one_step_option_a__seed42__20261126_114554_661786/metadata.json",
+        "history": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/cnn_one_step__cnn_one_step_option_a__seed42__20261126_114554_661786/history.csv"
+      },
+      {
+        "run_id": "cnn_one_step__cnn_one_step_option_a__seed123__20261126_114635_639608",
+        "metadata": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/cnn_one_step__cnn_one_step_option_a__seed123__20261126_114635_639608/metadata.json",
+        "history": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/cnn_one_step__cnn_one_step_option_a__seed123__20261126_114635_639608/history.csv"
+      },
+      {
+        "run_id": "cnn_one_step__cnn_one_step_option_a__seed456__20261126_114708_417676",
+        "metadata": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/cnn_one_step__cnn_one_step_option_a__seed456__20261126_114708_417676/metadata.json",
+        "history": "artifacts/releases/aapl-research-residual-v1-api-data/experiments/cnn_one_step__cnn_one_step_option_a__seed456__20261126_114708_417676/history.csv"
+      }
+    ],
+    "files_sha256": {
+      "artifacts/releases/aapl-research-residual-v1-api-data/results.csv": "2b22e8dbace05d21bc343936d8f1eb5aef8842a8639c93299dd101581f1dabea",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h1_residual_seed123/history.csv": "0d7b77ecc99e9d8e82953e7d119e797648425f1940adea0a29c728807ec154c3",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h1_residual_seed123/metadata.json": "d6cbeb81d4700851e9e0dc5ff593d0f1df380ee15f5cea390071ac6706462a35",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h1_residual_seed42/history.csv": "7101b486a8ba523d619654820dee61f0530eee4e1e797d0ba9fe50be5471e106",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h1_residual_seed42/metadata.json": "7fe6e747f1b1c28e639aecc5dd6082ed82b15ae934ea3f4a612862672e28d8ec",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h1_residual_seed456/history.csv": "20192eef6b3da9f5765178749ac258acef259e875be42861a1d43d6e3da6d187",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h1_residual_seed456/metadata.json": "eeffb1f938167ec361ac640c41c4adb3cb18d393fe3a3877050c15adafc1c3e6",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h5_residual_seed123/history.csv": "d4421bd3dc3b6f4caaf4206cd6dfd1a81904dbf1dd98c70b18d6a72843453389",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h5_residual_seed123/metadata.json": "027516017318338b2e783f1ffed8ab44a236719534ffcc9391d02c769b9af68c",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h5_residual_seed42/history.csv": "eed6db9e381fda5470b39350192d5826eb7d8692d32f63b892689351462ba7e7",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h5_residual_seed42/metadata.json": "227492546d267afef39f57c5d2474bc3da196d9e83d6c55e4c7ca192ebee48bc",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h5_residual_seed456/history.csv": "02dba4110f99a6ac8186e2f64e8c3686fb60f1caff23fee1ea7c5be69942fb1b",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/2023_lstm_h5_residual_seed456/metadata.json": "4bdb18a7245d86cf3eeb71a420691fb55a47ee0acd1e768a20ea62a99bac714b",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/cnn_one_step__cnn_one_step_option_a__seed123__20261126_114635_639608/history.csv": "346a47bc503f53ccc8785c02e46e7fda7866004b886b6be201bbf94eb04e7901",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/cnn_one_step__cnn_one_step_option_a__seed123__20261126_114635_639608/metadata.json": "fb40dcd12e6d77a3ae7f5053db78239a81b2073b3f31918a2bfc6b614d903cab",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/cnn_one_step__cnn_one_step_option_a__seed42__20261126_114554_661786/history.csv": "6ba757280f5d4ff66023f1799fe846d17088befdbae5db8156a99c47e1879fb1",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/cnn_one_step__cnn_one_step_option_a__seed42__20261126_114554_661786/metadata.json": "01e8881df2166fc6118c01ccbdc529184e7eb77725e605d4c93afbb90b42f72c",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/cnn_one_step__cnn_one_step_option_a__seed456__20261126_114708_417676/history.csv": "fd51de2323fff3f0e23d0a962445248a74e0a8222f0cc41c658fbab1c7fdafd1",
+      "artifacts/releases/aapl-research-residual-v1-api-data/experiments/cnn_one_step__cnn_one_step_option_a__seed456__20261126_114708_417676/metadata.json": "19dd168694c23f233f9dd69894d2ec382cf7f8893f35657fd3741f4e11b7f2c7"
+    },
+    "independent_holdout": false,
+    "evidence_id": "tv6_item7_20261127T031206056552Z",
+    "acceptance_sha256": "00922346abb39467c2a9bdcc25e55380b85f124f65c59deafa0f1f8c6e975655"
+  },
+  "semantic_sha256": "357c6ba9128f47ec11081cdab1a1f143a49b360e98c864e9d0f56a000642e8df"
+}

@@ -1,0 +1,101 @@
+{
+  "semantic": {
+    "candidate_id": "tv6-lstm-residual-candidate-v1",
+    "stage": "research-candidate-not-release",
+    "representation": "origin-centered-price-delta-v1",
+    "formula": "predicted_price = last_observed_price + training_price_scale * model_output",
+    "lookback": 30,
+    "dtype": "float64",
+    "runtime": "cpu-one-thread",
+    "dataset_version": "aapl_2015_2025_acq_20261119T141302002415Z",
+    "models": [
+      {
+        "forecast_length": 1,
+        "seed": 42,
+        "checkpoint": "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h1_residual_seed42",
+        "scaler_id": "tv6_dev_prices_to_2022_20261127T012509759710Z",
+        "best_epoch": 3,
+        "readout": "last"
+      },
+      {
+        "forecast_length": 1,
+        "seed": 123,
+        "checkpoint": "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h1_residual_seed123",
+        "scaler_id": "tv6_dev_prices_to_2022_20261127T012509759710Z",
+        "best_epoch": 4,
+        "readout": "last"
+      },
+      {
+        "forecast_length": 1,
+        "seed": 456,
+        "checkpoint": "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h1_residual_seed456",
+        "scaler_id": "tv6_dev_prices_to_2022_20261127T012509759710Z",
+        "best_epoch": 3,
+        "readout": "last"
+      },
+      {
+        "forecast_length": 5,
+        "seed": 42,
+        "checkpoint": "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h5_residual_seed42",
+        "scaler_id": "tv6_dev_prices_to_2022_20261127T012509759710Z",
+        "best_epoch": 16,
+        "readout": "last"
+      },
+      {
+        "forecast_length": 5,
+        "seed": 123,
+        "checkpoint": "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h5_residual_seed123",
+        "scaler_id": "tv6_dev_prices_to_2022_20261127T012509759710Z",
+        "best_epoch": 7,
+        "readout": "last"
+      },
+      {
+        "forecast_length": 5,
+        "seed": 456,
+        "checkpoint": "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h5_residual_seed456",
+        "scaler_id": "tv6_dev_prices_to_2022_20261127T012509759710Z",
+        "best_epoch": 3,
+        "readout": "last"
+      }
+    ],
+    "artifacts_sha256": {
+      "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h1_residual_seed42/manifest.json": "7aa16f04bcce70ce09be19cabb4da6bfbc32afada70e17d8077dfa4072f6b4c3",
+      "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h1_residual_seed42/state_dict.pt": "9cdf3dbd90e91efb5c96f471093a96721a487f7b71cffc63384c80a24f0aa91f",
+      "artifacts/scalers/tv6_dev_prices_to_2022_20261127T012509759710Z/manifest.json": "45e01d821d55ec1b2e9fc97728449844c2c864db0f6984129e2f0352f0529f1e",
+      "artifacts/scalers/tv6_dev_prices_to_2022_20261127T012509759710Z/scaler.json": "298675c51e6f07da4018eed9ed4760ab0026203d1c41eb6205c968a5c4a2d8d0",
+      "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h1_residual_seed123/manifest.json": "3139057c10efddc28662473eacc5bba09aaee184079b4c957e81093a4ebdf63d",
+      "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h1_residual_seed123/state_dict.pt": "c9493044c9a1de4fa35cfeeaa028632ea151454e09abe46371942d921d3dda3f",
+      "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h1_residual_seed456/manifest.json": "b0b02487419fc6850ce01265c95e10b3680468d594c418d8d24e4b77b3e50f99",
+      "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h1_residual_seed456/state_dict.pt": "218b8eba438f6c205d35ea0a2c64af76abb536245ff9d7b4ce66c907ab9eecac",
+      "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h5_residual_seed42/manifest.json": "67ffa72cb16715524a244f96810cec56012f011e234876feab2b95087e87efec",
+      "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h5_residual_seed42/state_dict.pt": "9f76dad2da40da859729651c2b9350f16a1991f06da6bd7abc455428b341af3e",
+      "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h5_residual_seed123/manifest.json": "62d96b7fc8a657fea7d59548881bda0a917c6a575d3e153ea260edee90cffaa3",
+      "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h5_residual_seed123/state_dict.pt": "a914dba6d374a65a743604938ee954727983f1894916f3fc3b93b806f4aaa438",
+      "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h5_residual_seed456/manifest.json": "8c89fa0c47bd0dacfa93dc5377be7322bf2c9c66e7e24dbb03ca8d49db6a907f",
+      "artifacts/checkpoints/tv6_residual_development_20261127T012509759710Z/2023_lstm_h5_residual_seed456/state_dict.pt": "cf4b852cbf04d860f317ba90e94325c3683359167f9c1ef20dc7402c0d286404"
+    },
+    "source_evidence": "logs/audit/tv6_residual_development_20261127T012509759710Z/summary.json",
+    "evaluation_protocol": {
+      "validation_years": [
+        2022,
+        2023
+      ],
+      "test_period": "2024-2025",
+      "test_label": "post-development evaluation on previously observed test",
+      "independent_holdout": false,
+      "no_training": true,
+      "no_refit": true,
+      "no_tuning_after_results": true,
+      "all_seeds_required": true,
+      "metrics": [
+        "MAE_USD",
+        "RMSE_USD"
+      ],
+      "h5_overall": "flatten sample x horizon errors",
+      "std_ddof": 1,
+      "baseline": "persistence on identical per-mode samples",
+      "new_test_inference_authorized_by": "User requested completion without further training"
+    }
+  },
+  "semantic_sha256": "6cf58f9022ca76dcaf23b1b44f0e68eb8854d17e843c301852874d7c241410c5"
+}

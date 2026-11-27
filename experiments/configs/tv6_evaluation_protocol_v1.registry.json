@@ -1,0 +1,12 @@
+{
+  "format_version": 1,
+  "protocol_id": "tv6-final-evaluation-v1",
+  "semantic_sha256": "9e81b5ca4f3ae9ddfd5969d846458afbf87e95ea89be98ddb8349a4906119579",
+  "protocol_file_sha256": "c5a6debc373d3e53a13bddcf1a50242514d5ae4d4a58c5a57d5ff97b621e987a",
+  "registered_at_utc": "2026-11-26T16:36:43.951095+00:00",
+  "prior_receipt": {
+    "path": "logs/audit/tv6_item2_20261126T162805091988Z/summary.json",
+    "sha256": "a9670d8997c38796c24806c910308b5ea7a781d368707b040863407b728de33d"
+  },
+  "purpose": "local immutable lock anchor, not authentication or proof of external test non-exposure"
+}

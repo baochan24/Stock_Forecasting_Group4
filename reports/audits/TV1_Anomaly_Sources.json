@@ -1,0 +1,48 @@
+{
+  "reviewed_on": "2026-11-19",
+  "selection_rule": "All sessions with absolute adjusted-close return > 10% in the fixed snapshot; not a comprehensive list of anomalies.",
+  "scope": "Retrospective data-quality interpretation only; news and future-session windows must not become forecasting inputs.",
+  "events": [
+    {
+      "date": "2020-03-13",
+      "context": "Thị trường phục hồi cùng thông báo tình trạng khẩn cấp COVID-19. Đây là bối cảnh thị trường, chưa chứng minh nguyên nhân riêng của AAPL.",
+      "evidence_level": "market_context_supported; stock-specific causality not established",
+      "decision": "retain_no_correction_evidence",
+      "sources": [{"publisher": "Reuters / Investing.com", "published_date": "2020-03-13", "title": "Late Wall Street rally leads global stocks higher", "url": "https://ng.investing.com/news/stock-market-news/global-marketslate-wall-street-rally-leads-global-stocks-higher-oil-also-jumps-153143"}]
+    },
+    {
+      "date": "2020-03-16",
+      "context": "Thị trường bán tháo trong lo ngại tác động COVID-19, dù Fed vừa hạ lãi suất. Bối cảnh phù hợp với chiều giảm trong snapshot; chưa xác định quan hệ nhân quả.",
+      "evidence_level": "market_context_supported; stock-specific causality not established",
+      "decision": "retain_no_correction_evidence",
+      "sources": [{"publisher": "Reuters / Investing.com", "published_date": "2020-03-16", "title": "Wall St sinks as virus spread escalates worries", "url": "https://ng.investing.com/news/stock-market-news/us-stockswall-st-sinks-as-virus-spread-escalates-worries-154288?ampMode=1"}]
+    },
+    {
+      "date": "2020-03-24",
+      "context": "Thị trường tăng trong kỳ vọng gói hỗ trợ tài khóa Mỹ. Nguồn ngày 25/03 mô tả phiên 24/03; phân biệt ngày báo cáo và ngày giao dịch.",
+      "evidence_level": "market_context_supported; stock-specific causality not established",
+      "decision": "retain_no_correction_evidence",
+      "sources": [{"publisher": "Standard Chartered", "published_date": "2020-03-25", "title": "US close to sealing USD 2tn stimulus", "url": "https://www.sc.com/en/uploads/sites/66/content/docs/pvb-market-watch-us-close-to-sealing-usd2tn-stimulus-25-march-2020.pdf"}]
+    },
+    {
+      "date": "2020-07-31",
+      "context": "Phiên sau công bố kết quả kinh doanh và thông báo chia tách của Apple ngày 30/07. Giao dịch theo split bắt đầu 31/08/2020; không phải 31/07. Không chia giá thêm lần nữa.",
+      "evidence_level": "issuer_event_confirmed; contemporary AAPL rally reported; causality not isolated",
+      "decision": "retain_no_correction_evidence",
+      "sources": [
+        {"publisher": "Apple Newsroom", "published_date": "2020-07-30", "title": "Apple Reports Third Quarter Results", "url": "https://www.apple.com/newsroom/2020/07/apple-reports-third-quarter-results/"},
+        {"publisher": "The Motley Fool", "published_date": "2020-07-31", "title": "Why Apple Stock Soared to a New All-Time High Today", "url": "https://www.fool.com/investing/2020/07/31/why-apple-stock-soared-to-a-new-all-time-high-toda.aspx"}
+      ]
+    },
+    {
+      "date": "2025-04-09",
+      "context": "Thị trường phục hồi sau thông báo tạm hoãn nhiều thuế quan trong 90 ngày, ngoại trừ Trung Quốc. MacRumors là tin trong phiên; không dùng mức tăng trong bài làm return đóng cửa.",
+      "evidence_level": "market_and_AAPL_intraday_context_supported; closing return from local snapshot",
+      "decision": "retain_no_correction_evidence",
+      "sources": [
+        {"publisher": "Reuters / Kitco", "published_date": "2025-04-09", "title": "Stocks spring higher as Trump announces tariff pause excluding China", "url": "https://www.kitco.com/news/off-the-wire/2025-04-09/stocks-spring-higher-dollar-gains-trump-announces-tariff-pause"},
+        {"publisher": "MacRumors", "published_date": "2025-04-09", "title": "Apple Stock Jumps as Trump Pauses Some Tariffs for 90 Days", "url": "https://www.macrumors.com/2025/04/09/apple-stock-up-tariff-pause/"}
+      ]
+    }
+  ]
+}

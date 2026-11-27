@@ -1,0 +1,55 @@
+{
+  "format_version": 1,
+  "purpose": "research",
+  "semantic_config": {
+    "model_type": "cnn_one_step",
+    "data": {
+      "ticker": "AAPL",
+      "lookback": 30,
+      "forecast_length": 1,
+      "dataset_version": "aapl_2015_2025_acq_20261119T141302002415Z",
+      "scaler_id": "aapl_scaler_20261120T124720810874Z",
+      "prepared_id": "tv4_lb30_20261125T120957429763Z",
+      "scaler_manifest_sha256": "695905a39615e336f83de1ab781f4f893e599e59a5e2685d1e77e4881174b4f5",
+      "prepared_manifest_sha256": "a5e946266bc385cecaec1deae6242a7216429b02cc259ffe5069221f066d4150",
+      "common_history": true
+    },
+    "model": {
+      "lookback": 30,
+      "n_features": 1,
+      "conv1_channels": 16,
+      "conv2_channels": 32,
+      "kernel_size": 3,
+      "pool_size": 2,
+      "hidden_units": 32,
+      "dropout": 0.1,
+      "output_size": 1
+    },
+    "training": {
+      "batch_size": 32,
+      "optimizer": "adam",
+      "learning_rate": 0.001,
+      "loss_function": "mse",
+      "max_epochs": 100,
+      "early_stopping": {
+        "patience": 10,
+        "monitor": "val_loss",
+        "mode": "min"
+      }
+    },
+    "seeds": [
+      42,
+      123,
+      456
+    ],
+    "runtime": {
+      "torch_threads": 1
+    }
+  },
+  "semantic_sha256": "e78dd9f83140e083d8888005fee93e7667b77404beb9d7479941099192da7fa3",
+  "baseline_yaml_sha256": "6d10b6fcfbf9fff39e469de4fcb2c05b3e19488577a62f7ae5f4ee733e6603ac",
+  "total_epoch_cap": 300,
+  "seed_count": 3,
+  "selection": "minimum validation MSE per seed",
+  "std_ddof": 1
+}

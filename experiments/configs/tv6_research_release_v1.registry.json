@@ -1,0 +1,6 @@
+{
+  "release_id": "aapl-research-residual-v1",
+  "manifest": "artifacts/releases/aapl-research-residual-v1/manifest.json",
+  "manifest_sha256": "6062ffc7c196bb25528153a4ed783a8552baa8ad4380702ff9339a43447911bf",
+  "semantic_sha256": "a4b04a50c3e499b95407a5a8f9de379a40f6371bbb532cc01df90fdb2b5719a3"
+}

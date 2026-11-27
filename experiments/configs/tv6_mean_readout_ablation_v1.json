@@ -1,0 +1,13 @@
+{
+  "purpose": "post-test development, single-factor LSTM h1 readout ablation",
+  "validation_years": [2022, 2023],
+  "seeds": [42, 123, 456],
+  "changed_factor": "last hidden readout -> mean of all 30 hidden vectors",
+  "unchanged": ["architecture parameters", "origin-centered-price-delta-v1", "zero output head", "fold scaler", "training cohorts", "seed", "shuffle train only", "batch32", "Adam", "lr0.001", "max100", "patience10"],
+  "control": "reuse hash-pinned paired last-readout runs from residual development v1",
+  "gradient_log_epochs": [1, 5, 10, 20, 50, 100],
+  "evaluation": ["all seeds MAE/RMSE", "persistence", "train-only drift", "flat history sensitivity", "early versus recent input gradients"],
+  "retain_rule": "No automatic promotion; improvement must be assessed across both folds and real versus flat history; report negative results",
+  "test_forward_allowed": false,
+  "promotion_allowed": false
+}

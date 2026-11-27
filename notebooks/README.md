@@ -1,0 +1,147 @@
+# notebooks
+
+**TV6 mục9:** notebook06 có52cells/26code cells, giữ output cũ; hai cell mới replay request H5 qua backend, xem screenshot Chrome thật và14 checks/5 tests JS. Builder đã đồng bộ. Frontend chạy scripts/run_tv6_frontend.py, mở http://127.0.0.1:5173 sau khi API8000 sẵn sàng. Xem docs/TV6_Frontend_Demo.md. Mục10 còn chờ; các số cell bên dưới là lịch sử.
+
+**TV6 mục8:** notebook06 hiện46cells/23code cells cóoutput APIprediction/metric/verifiedLSTMgateplot vàacceptance46tests/15realHTTPchecks. APIexample dùngTestClient, khôngtrain hoặc cầnserverđangchạy. Backendstart: scripts/run_tv6_api.py; frontend cònmục9. Xemdocs/TV6_API_Setup_and_Contract.md.
+
+**TV6 mục7:** notebook06 hiện42cells/21code cells cóoutput: manifestcatalog, actualbackendinferencevalidation, sơđồ pipeline,14tests/E2E vàportableproof. Cellmục7 chạy inferencevalidation khiRunAll, khôngtrain/tínhmetric. Release local aapl-research-residual-v1, API/frontend cònmục8/9. Xemdocs/TV6_Release_Contract.md.
+
+**TV6 mới nhất:** notebook06 hiện38cells/19code cells cóoutput, hoàn tất chốt ứng viên LSTM vàaudit pipeline khôngtrain. Kếtquả residual trên test2024–2025 được ghi rõpost-development/khôngđộc lập; không thay kếtquảv1. Báo cáoTV6_LSTM_Candidate_Completion.md. Run All chỉ đọc kếtquả đã lưu, khôngforward/train lại.
+
+TV6 ablation readout: notebook06 hiện34cells/17code cells cóoutput, sáu run meanreadout so controls đãpin. Kết quả không cải thiện nhất quán, không thay model chính. Báo cáo TV6_Readout_Ablation.md; Run All không train lại.
+
+TV6 sau mục6 bổ sungtrain-onlydrift vàgradientcheck: notebook06 hiện30cells/15code cells cóoutput. Không tạo modeltrain mới, không đổiweights hoặctestforward. Báo cáo reports/audits/TV6_LSTM_Learning_Check.md; Run All chỉ đọc kết quảchẩn đoán đã lưu.
+
+TV6 mục6 đã bổ sung phân tích lỗi vàhistory sensitivity: notebook06 hiện26cells/13code cells có output thật.12checkpoint probes chỉ trêndevelopment2022/2023, không train/testforward mới. Các vấn đề và đề xuất sửa ởreports/audits/TV6_Item6_Error_Analysis.md; chưa sangrelease/API.
+
+TV6 bổ sung thử nghiệm residual sau test: notebook06 có22cells/11code cells lưu output,36runs trên validation2022/2023, bảng so sánh và loss. Không thay kết quả testv1, không train khi Run All. Xem reports/audits/TV6_Residual_Development_Results.md và docs/TV6_Residual_Development_v1.md.
+
+TV5 mục 3 có bảng dữ liệu thật và ví dụ mẫu trong notebook 05. Lệnh `.venv/tv4_clean/Scripts/python.exe scripts/check_tv5_aapl_data.py` kiểm toàn bộ train/validation CNN đối ứng với LSTM, lưu receipt riêng cho mỗi lần chạy.
+
+TV5 mục 2 hiện có 26 tests contract, CNN CPU float64 và kiến trúc phương án A giữ nguyên. Notebook 05 hiển thị cả baseline lịch sử mục 1 và kết quả hiện tại. Tiếp theo là nối dữ liệu TV2 ở mục 3.
+
+TV5 có `05_TV5_CNN_Development_and_Experiments.ipynb`, mục 1 lưu baseline 7 tests, source hashes, môi trường, kiến trúc và forward tensor tổng hợp. Build bằng `.venv/tv4_clean/Scripts/python.exe scripts/build_member_notebooks.py --member 5`, execute bằng `.venv/tv4_clean/Scripts/python.exe scripts/execute_member_notebooks.py --member 5`. Kernel là AAPL Coursework TV5, dùng môi trường TV4 đã kiểm chứng cho baseline.
+
+TV4 đã có mục 1–10 trong notebook gốc và UPDATED. Mục 10 hiển thị receipt nghiệm thu bản sao local, 69 tests, 12 model đã kiểm và 6 model được chọn để bàn giao. Hướng dẫn nhận gói ở docs/TV4_Handoff_TV5_TV6.md.
+
+TV4 mục 9 đọc kết quả ba seed LSTM năm bước tại logs/audit/tv4_item9_20261125T140320407544Z, hiển thị MSE tổng và từng horizon cùng đường học. Notebook gốc và UPDATED đều có nội dung đến mục 9.
+
+TensorBoard của chín run mục 8 mở tại http://127.0.0.1:6006 khi server local hoạt động. Dữ liệu được xuất từ CSV đã lưu bằng `.venv/tv4_tensorboard/Scripts/python.exe scripts/export_tv4_tensorboard.py`. Cài TensorBoard trong môi trường riêng bằng `python -m venv .venv/tv4_tensorboard` và `.venv/tv4_tensorboard/Scripts/python.exe -m pip install tensorboard==2.21.0`. Khởi động lại dashboard bằng `.venv/tv4_tensorboard/Scripts/python.exe -m tensorboard.main --logdir logs/tensorboard/tv4_item8_20261125T122649342552Z --host 127.0.0.1 --port 6006`. Trục Step là epoch, wall time là thời điểm xuất CSV thành events. Script từ chối xuất trùng thư mục đã tồn tại.
+
+TV4 mục 8 hiển thị chín run LSTM một bước, bảng validation trung bình/std theo lookback và chín đường học. Cell đọc kết quả đã lưu tại logs/audit/tv4_item8_20261125T122649342552Z để tránh chạy lại training khi xem notebook.
+
+Mục 6 trong notebook TV4 hiển thị hai đường loss cho hai horizon cùng bảng thời gian CPU, số mẫu, số tham số và kết quả reload. Các run được giới hạn ba epoch để kiểm tra tích hợp trước thiết kế thực nghiệm ở mục 7.
+
+**TV4 mục 4** trong notebook 04 hiển thị train/validation MSE từng epoch, hai mốc best và dừng, cùng phép đo validation sau khi khôi phục trọng số trong RAM. Có thể bắt đầu riêng từ cell code đầu của mục 4 với kernel TV4.
+
+Trong [notebook TV4](04_TV4_Training_and_Experiments.ipynb), mở mục **3.1. Quan sát LSTM học trên dữ liệu AAPL** để xem cửa sổ 30 phiên, thay đổi trọng số sau một batch, MSE từng batch và epoch, cùng dự báo và sai số từng phiên validation năm 2023. Khi chạy lại, notebook ghi hình PNG và các bảng CSV vào một thư mục mới dưới `logs/audit/tv4_training_demo_*/`.
+
+Để chạy riêng phần minh họa trong VS Code, chọn kernel **AAPL Coursework TV4** rồi bắt đầu từ cell code đầu của mục 3.1. Cell này tự tìm thư mục gốc khi kernel mở ở thư mục project hoặc `notebooks/`. Các cell còn lại của mục dùng dữ liệu và mô hình khởi tạo ở cell này, nên chạy theo thứ tự từ trên xuống.
+
+**TV4 mục 3.** Notebook 04 đã chạy 7/7 cell code, gồm bảng kiểm tra train/validation theo từng horizon, ngày target, batch cuối và nguồn scaler/prepared. Mục 3 dùng AAPL thật cho forward CPU float64. Kết quả lịch sử của các mục trước được giữ bên dưới.
+
+**TV4 sau mục2:** notebook04 hiện11 cells/6 code,6/6 đạt bằng tv4_clean. Có52 testcase và probe CPU float64 trên hai LSTM TV3: Adam update, batch cuốiB1, validation không đổi weights/gradient, dtype guards. Chỉ tensors tổng hợp, không train AAPL; tiếp theo mục3 nối TV2/factories/config thật. Các counts mục1 dưới đây là lịch sử.
+
+**TV4 mục1 (25/11/2026):** `04_TV4_Training_and_Experiments.ipynb` đã chạy9 cells/5 code,5/5 đạt bằng `.venv/tv4_clean`. Có bảng16 tests, source/imports/provenance/environment và các mục còn chờ. Không train AAPL; float32/checkpoint/version thật chưa tích hợp. Kernel riêng **AAPL Coursework TV4 (CPU)**; builder/executor --member4, xem docs/TV4_Setup_and_Reproduce.md. Notebook TV1–TV3 không thay đổi.
+
+**Sau TV3 mục6:** notebook03 hiện22 cells/13 code,13/13 chạy đạt bằng kernel sạch. Có toàn bộ6 mục,99 testcase, trace/precision/environment và checksum/receipt gói source/contract cuối. Đạt kỹ thuật local, vẫn chờ người nhận/máy khác/checkpoint AAPL thật. Reports/audits/TV3_Final_Handoff.md ghi kết quả; các counts/mục chờ bên dưới giữ lịch sử trước cập nhật.
+
+**Kernel hiện tại sau TV3 mục5:** chọn **AAPL Coursework CPU float64**, interpreter `.venv/tv3_clean/Scripts/python.exe`. Đã chạy notebook03 bằng venv sạch theo lock68 packages;21 cells/12 code,12/12 đạt. Mục5 hiển thị origins/lock/pip-check/freeze và assertions strict-clean; mục6 chờ, máy khác chưa xác nhận. Các hướng dẫn tv3_review_env và counts cũ phía dưới giữ lịch sử, không phải môi trường mặc định hiện tại. Xem docs/TV3_Setup_and_Reproduce.md.
+
+## Notebook theo từng phần để trình bày với giảng viên
+
+Cập nhật TV3 mục4: notebook03 có thêm trace initial/update/reload của cả hai mode, bảng sai số,30 dòng gate/hidden/cell và biểu đồ, kiểm recurrence30×32. Mục5–6 chờ. Suite hiện89 tests; các ghi nhận mục1–3/77 tests phía dưới là lịch sử trước cập nhật.
+
+Theo yêu cầu người dùng23/11/2026, mỗi phần TV dùng một notebook, các hạng mục là các nhóm Markdown/code cells. Cập nhật notebook sau từng mục, có output thật và đường dẫn evidence; không tạo kết quả trước khi chạy.
+
+| Phần | Notebook | Nội dung hiện có |
+|---|---|---|
+| TV1 | `01_AAPL_Data_Exploration.ipynb` | EDA, nguồn dữ liệu và audit TV1 hiện có; giữ nguyên trong lần bổ sung này |
+| TV2 | `02_TV2_Preprocessing_and_Audit.ipynb` | 10 mục: dữ liệu/split/scaler/window1/5/contract/tests/leakage/handoff; chờ xác nhận máy khác |
+| TV3 | `03_TV3_LSTM_Development_and_Tests.ipynb` | Mục1–6 kỹ thuật local,99 tests/trace/clean-env/handoff receipt; chờ người nhận/máy khác/checkpoint thật |
+| TV4 | `04_TV4_Training_and_Experiments.ipynb` | Mục 1–3 đạt local, 59 tests, đã kiểm tra các batch AAPL train/validation |
+
+TV5–TV6 sẽ bổ sung notebook khi bắt đầu phần tương ứng, không tạo notebook rỗng hoặc giả định đã hoàn thành. Notebook là bản trình bày gọi backend/scripts, không chứa pipeline thứ hai hoặc thay thế source/tests/report.
+
+Hai notebook đã chạy và lưu outputs local: TV2 có25 cells/13 code; TV3 sau mục4 có19 cells/11 code. Không có error outputs. Có bảng dữ liệu/raw→scaled→inverse, biểu đồ split và mẫu input/target; TV3 hiển thị kiến trúc/dtype, kết nối dữ liệu thật, từng test và trace/biểu đồ gates. Mô hình minh họa chưa train; không có accuracy/MAE/RMSE dự báo.
+
+Mở file trực tiếp trong VS Code để đọc output đã lưu, không cần Run All chỉ để xem. Khi chạy lại, chọn interpreter `.venv/tv3_review_env/Scripts/python.exe` (kernel AAPL Coursework TV2-TV3). Đây là môi trường phát triển kế thừa site packages, không phải chứng nhận môi trường sạch TV3 mục5. Cần artifacts TV1/TV2 tại workspace; không truy cập Yahoo để tải lại.
+
+Build/execute đặt đúng trong scripts:
+
+```powershell
+# Chỉ regenerate TV3 khi chủ động cập nhật builder; việc này xóa output cũ.
+.\.venv\tv3_review_env\Scripts\python.exe -X utf8 scripts/build_member_notebooks.py --member 3 --overwrite
+.\.venv\tv3_review_env\Scripts\python.exe -X utf8 scripts/execute_member_notebooks.py --member 3
+```
+
+`--member 2` cho TV2; mặc định all cho cả hai. Builder từ chối ghi đè nếu thiếu --overwrite; executor giữ output và lỗi nếu thực thi thất bại để kiểm tra. Không regenerate để chỉ xem notebook. Sau khi cập nhật trên đĩa, mở lại tab để tránh xem bản buffer cũ. Runtime cần nbformat5.11.1, nbclient0.11.0, ipykernel7.4.0 và matplotlib cùng dependencies backend; đã cài tại venv riêng, không sửa TV1/tv2_clean. Chưa đóng lock sạch TV3, xem mục5 khi triển khai.
+
+Run All thực sự chạy lại tests/audit, có thể mất vài phút và tạo log ID mới. Benchmark CPU trong TV3 đọc evidence đã ghi, ghi rõ đây là phép đo quá khứ/tổng hợp; không chạy training benchmark mỗi lần. ZIP bàn giao TV2 đã chốt trước các notebook này, không tự sửa hoặc tuyên bố ZIP chứa bản mới.
+
+## Kết quả audit TV1 hiện hành
+
+Ngay đầu `01_AAPL_Data_Exploration.ipynb`, sau cell cấu hình, có **TỔNG AUDIT TV1 VÀ KẾT QUẢ DATA**: bảng đủ 10 hạng mục, kết luận 8 đạt cục bộ/2 còn xác nhận độc lập, thống kê snapshot, schema, số phiên theo giai đoạn, 5 dòng đầu/cuối và hash. Audit đã sửa lỗi rollback output khi report ghi thất bại; suite hiện tại 34/34 và notebook 20/20 cell đạt. Xem `reports/audits/TV1_Final_Audit.md`; các thống kê theo run phía dưới giữ lịch sử.
+
+Notebook khảo sát/demo sau này; gọi logic back-end, không nhân bản pipeline.
+
+## Khám phá AAPL
+
+Quy trình cập nhật: sau khi hoàn thành từng hạng mục TV1, bổ sung vào `01_AAPL_Data_Exploration.ipynb` mô tả công việc, kết quả thực thi, file bằng chứng, trạng thái và phần còn lại; đồng bộ `scripts/build_data_exploration.py` rồi chạy notebook để lưu output. Không đánh dấu hoàn tất chỉ dựa trên code hoặc số liệu chưa kiểm chứng.
+
+Hạng mục 2 hiện đọc receipt `_complete.json`, kiểm tra bộ đủ raw/validated/metadata/report và hiển thị link ZIP/sha256 trên Drive. Phần cung cấp bộ artifacts đã hoàn thành, xác nhận người nhận độc lập vẫn chờ. Hạng mục 5 audit chất lượng mở rộng tiếp tục riêng.
+
+Hạng mục 5 đã chạy trên snapshot hiện tại: validator dùng chung kiểm tra lịch phiên và chất lượng, lưu audit JSON riêng không ghi đè bộ đã bàn giao. Notebook hiển thị lỗi/cảnh báo và bảng phiên từng năm. Tests dữ liệu đạt 20/20 khi đặt `TV1_DATASET_VERSION` bằng version hiện tại. Năm biến động >10% được giữ cho điều tra hạng mục 8.
+
+Hạng mục 6 tiếp nối mục 5 trong notebook: 14 kiểm tra chấp nhận bảng chuẩn, dựa vào hash nguồn/audit/report và đối chiếu raw–validated từng dòng. 24/24 tests dữ liệu đạt sau bổ sung test output. Bảng 2.766 dòng bốn cột không bị ghi đè; xem `reports/audits/TV1_Standard_Output.md`. Chưa chuyển sang preprocessing TV2.
+
+Hạng mục 7 có các mục 7.1–7.7: giải nghĩa cột, độ phủ, diễn biến giá/volume, return/rolling volatility, phân bố năm và nhận xét tính từ dữ liệu. Xuất 5 PNG vào `reports/figures/`, bảng/summary vào `data/metadata/eda/<dataset_version>/<eda_run_id>/`, không ghi đè bằng chứng EDA run trước. Xem `reports/audits/TV1_Data_Exploration.md`. Không tuning hoặc giải thích nguyên nhân các biến động lớn ở bước này.
+
+Hạng mục 8 cập nhật trực tiếp trong notebook (8.1–8.3, link đầu notebook): đối chiếu tất cả 5 phiên |return| >10%, Close/Adj Close và cửa sổ ±2 phiên; ledger nguồn cục bộ `reports/audits/TV1_Anomaly_Sources.json`. Giữ cả 5 phiên, không sửa snapshot. CSV/JSON review xuất trong `<eda_run_id>/anomaly_review/`, hình 5 panel ở `reports/figures/`. Xem `reports/audits/TV1_Anomaly_Review.md`; bối cảnh không phải kết luận nhân quả.
+
+Hạng mục 9 hiển thị 34/34 test đạt, không skip, kết quả từng module và log đầy đủ. Chạy `scripts/run_tv1_checks.py --dataset-version <version>` trước; notebook chỉ đọc summary mới nhất đúng version và xác minh hash log/source/artifacts. Nếu sửa code test/backend cần chạy lại suite rồi Run All. Bằng chứng `reports/audits/TV1_Test_Summary.md`; chưa thay thế xác minh máy khác.
+
+Hạng mục 10 có hướng dẫn `docs/TV1_Setup_and_Reproduce.md`, full lock `requirements-tv1-lock.txt` và kết quả clean venv/workspace riêng cùng máy: pip check đạt, 34 tests đạt, toàn bộ 20 code cell chạy thành công. Notebook hiển thị summary thực từ `data/metadata/tv1_reproducibility_latest.json`, không tự nhận máy khác đã chạy. Xem `reports/audits/TV1_Reproducibility.md`.
+
+Mở `01_AAPL_Data_Exploration.ipynb` để xem bảng dữ liệu, đồ thị giá/khối lượng/biến động, audit lịch phiên và các hạng mục TV1 cần bổ sung. Mục 1 ghi đầy đủ bước thu thập bằng downloader TV1, version `aapl_2015_2025_acq_20261119T141302002415Z`: tham số tải, nguồn, metadata/hash, đối chiếu đầu ra và 10 dòng đầu/cuối. Đây là snapshot mới tải trong phiên làm việc, không phải artifacts gốc tác giả PR đã báo cáo.
+
+Cài dependencies: `python -m pip install -r notebooks/requirements-eda.txt`. Chọn kernel Python đã cài các thư viện này rồi Run All. Notebook chỉ đọc snapshot đã lưu theo `DATASET_VERSION`; thiếu artifacts sẽ báo lỗi, không tự tải. Lệnh gọi downloader hiển thị trong Markdown để tham khảo, không chạy khi Run All. Bảng audit bổ sung xuất vào `data/metadata/eda/<dataset_version>/`, tách biệt output snapshot EDA cũ.
+
+`../scripts/build_data_exploration.py` tạo lại notebook (xóa output cũ); `../scripts/execute_data_exploration.py` dùng môi trường `.venv/eda` để chạy/lưu output. Tạo môi trường sạch ở đường dẫn chưa có bằng `python -m venv .venv/eda`, cài bằng `.venv/eda/Scripts/python.exe -m pip install -r notebooks/requirements-eda.txt`. Build bằng `.venv/eda/Scripts/python.exe scripts/build_data_exploration.py`; execute bằng `python scripts/execute_data_exploration.py`. Có thể chỉ định Python khác bằng biến `TV1_NOTEBOOK_PYTHON` (đường dẫn tuyệt đối). Không copy venv giữa máy; xem `docs/TV1_Setup_and_Reproduce.md`.
+
+Trong VS Code, chọn **Select Kernel → Python Environments → `.venv/eda/Scripts/python.exe`**, sau đó Restart Kernel và Run All. Cell đầu in đường dẫn Python để kiểm tra. Không thêm `.venv/eda_deps` vào sys.path: NumPy ở đó là binary CPython 3.13, không dùng được với kernel Python khác phiên bản. Nếu đã chạy cell cũ, cần restart để bỏ các module đã nạp dở.
+
+Kernel đã đăng ký với tên `aapl-eda-project`, hiển thị `AAPL EDA (Python 3.13)`; notebook và các script build/execute cùng dùng tên này. `.vscode/settings.json` đặt interpreter mặc định cho workspace. Nếu tab đang giữ kernel cũ, dùng **Developer: Reload Window** để IDE đọc lại cấu hình và notebook; metadata trên đĩa không thể thay trực tiếp tiến trình kernel đang chạy. Khi chuyển sang máy khác, đăng ký kernel bằng `.venv/eda/Scripts/python.exe -m ipykernel install --user --name aapl-eda-project --display-name "AAPL EDA (Python 3.13)"`.
+
+Raw CSV và các bảng audit xuất ra nằm dưới `data/`, được Git bỏ qua theo chính sách hiện tại. Không commit dataset qua notebook; bảng mẫu và biểu đồ được lưu trong output notebook để đọc trực tiếp. Không train, fit scaler hay chọn model tại đây.
+# TV5 mục 4
+
+TV6 mục4 dùng scripts/check_tv6_evaluation.py để tái tính metric validation từ output mục3, không inference test. Notebook hiển thị per-horizon/overall,seed mean/std,joined errors và biểu đồ; overall horizon để trống, phân biệt sample_count/error_count. Contract docs/TV6_Evaluation_Contract.md.
+
+TV6 mục3 hiển thị input-only inference validation một/năm bước và guard trước test dates. Chạy scripts/check_tv6_inference.py để tạo receipt/full validation predictions mới; build/execute --member6. Không train hoặc metric/test inference.
+
+TV6 mục2 có lock protocol v1 và cell kiểm trực tiếp fingerprint/artifacts/cohorts. Chạy `python scripts/lock_tv6_protocol.py` để tạo một lần hoặc xác minh; cập nhật notebook qua --member6. Protocol không chạy performance test; demo seed42 cố định, research đủ3 seeds.
+
+TV6 dùng06_TV6_Integration_Evaluation_and_Demo.ipynb, kernel aapl-coursework-tv6 trỏ venv sạch hiện có. Chạy `python scripts/audit_tv6_inputs.py`, build/execute member notebooks với `--member 6`. Mục1 chỉ intake/hash/provenance/history/input-only probe, chưa đo metric test hoặc làm frontend.
+
+Mục10 notebook05 tổng hợp audit và receipt kiểm tái lập độc lập source TV5. Gói local do scripts/build_tv5_handoff.py tạo, kiểm bằng scripts/verify_tv5_handoff.py sau giải nén vào thư mục riêng. Xem docs/TV5_Setup_and_Handoff.md. Không upload hoặc push khi chưa có tác vụ cho phép.
+
+Notebook05 có phần bổ sung monitoring sau mục9, bốn ảnh errors/rolling20/distributions/monthly, bảng bias/P95/top errors và inventory tài nguyên. Chạy scripts/build_tv5_monitoring.py để tạo receipt mới từ predictions validation đã có, không train lại.
+
+Mục9 notebook05 đọc kết quả `python scripts/compare_tv5_validation.py`, so sánh MAE/RMSE USD trên cùng250 validation samples, đủ ba seed, mean/std mẫu. Không phải đánh giá test cuối của TV6.
+
+TV5 mục 8 dùng `python scripts/run_tv5_official.py` với lock phương án A. Notebook đọc receipt chính thức, hiển thị từng seed, mean/std validation và biểu đồ. Lệnh chạy tạo lượt mới, tối đa300 epoch tổng, không tính metric test.
+
+TV5 mục 7 tái lập bằng `python scripts/run_tv5_smoke.py` trong venv TV4 sạch. Notebook 05 đọc receipt smoke mới nhất và nhúng biểu đồ loss/time/validation sanity/reload. Run mới chỉ dùng train/validation, 5 epoch seed42, purpose diagnostic. Không phải official model hoặc đánh giá test.
+
+Notebook 05 có phần sơ đồ tổng hợp mục 1–6, bốn ảnh PNG được nhúng trong output và có thể tái tạo bằng scripts/tv5_notebook_diagrams.py. Ảnh là giải thích flow, không phải kết quả train AAPL.
+
+Mục 6 notebook 05 ghi tests checkpoint CNN, diagnostic/research separation, checksum/config/provenance, roundtrip và runner persistence trên tensors tổng hợp. Chưa train AAPL.
+
+Mục 5 notebook 05 kiểm CNN factory/config và loop TV4 bằng dữ liệu tổng hợp, có bảng loader AAPL thực. Chưa train AAPL. Cập nhật notebook bằng build/execute `--member 5`.
+
+Notebook 05 có cell nghiệm thu gradient/Adam/dropout/state_dict cùng hồi quy training. Đây là tensors tổng hợp, chưa huấn luyện AAPL. Build và execute bằng scripts hiện có với `--member 5`.
+
+
+
+TV6 m?c5 ?? l?u b?ng test2024?2025 v? bi?u ?? trong notebook06 (16cells/8code cells c? output). Cell m?c5 ??c k?t qu? ?? l?u, kh?ng train ho?c test-forward l?i. C?c nh?n x?t ch?a m? test trong m?c1?4 ph?n ?nh th?i ?i?m l?ch s?.

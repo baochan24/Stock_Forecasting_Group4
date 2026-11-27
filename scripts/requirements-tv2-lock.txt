@@ -1,0 +1,16 @@
+# Verified target: Windows CPU, CPython 3.13.7. No notebook/model dependencies.
+numpy==2.4.4
+pandas==3.0.6
+scikit-learn==1.9.1
+scipy==1.18.1
+joblib==1.6.0
+threadpoolctl==3.8.0
+exchange_calendars==4.13.3
+pyluach==2.3.0
+toolz==1.2.0
+korean_lunar_calendar==0.4.0
+python-dateutil==2.9.0.post0
+six==1.17.0
+tzdata==2026.5
+narwhals==2.28.0
+cloudpickle==3.1.2

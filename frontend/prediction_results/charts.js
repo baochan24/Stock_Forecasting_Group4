@@ -1,0 +1,17 @@
+export const colors={actual:'#354d72',lstm:'#1759e8',cnn:'#089b85',persistence:'#c78605',input_gate:'#1759e8',forget_gate:'#089b85',output_gate:'#9864ca',train_loss:'#1759e8',val_loss:'#dd8b24'};
+export const escape=value=>String(value??'—').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+export function table(headers,rows){return rows.length?`<table><thead><tr>${headers.map(h=>`<th scope="col">${escape(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map(v=>`<td>${escape(v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`:'<p class="muted">Không có dữ liệu trong phạm vi này.</p>';}
+export function lineChart(series,labels,{forecastAt=null,title='Biểu đồ',unit='USD'}={}){
+  const finite=series.flatMap(s=>s.values.filter(Number.isFinite));if(!finite.length)return '<p class="muted">Chưa có dữ liệu biểu đồ.</p>';
+  const w=900,h=310,l=65,r=25,t=24,b=42;let min=Math.min(...finite),max=Math.max(...finite);const pad=(max-min)*.15||1;min-=pad;max+=pad;
+  const x=i=>l+i*(w-l-r)/Math.max(labels.length-1,1),y=v=>h-b-(v-min)*(h-t-b)/(max-min);
+  const grid=Array.from({length:5},(_,i)=>{const v=min+(max-min)*i/4;return `<line class="grid" x1="${l}" x2="${w-r}" y1="${y(v)}" y2="${y(v)}"/><text x="${l-10}" y="${y(v)+4}" text-anchor="end">${v.toFixed(2)}</text>`;}).join('');
+  const ticks=[...new Set([0,Math.floor((labels.length-1)/3),Math.floor(2*(labels.length-1)/3),labels.length-1,...(forecastAt===null?[]:Array.from({length:labels.length-forecastAt},(_,k)=>k+forecastAt))])].sort((a,b)=>a-b).filter((i,k,a)=>k===0||x(i)-x(a[k-1])>53);
+  const paths=series.map(s=>{let d='',open=false;for(let i=0;i<s.values.length;i++){const v=s.values[i];if(!Number.isFinite(v)){open=false;continue;}d+=`${open?'L':'M'}${x(i)},${y(v)} `;open=true;}return `<path fill="none" stroke="${s.color||colors[s.name]||'#63768d'}" stroke-width="${s.name==='actual'?2.6:2}" ${s.dashed?'stroke-dasharray="6 4"':''} d="${d}"/>`+s.values.map((v,i)=>Number.isFinite(v)?`<circle cx="${x(i)}" cy="${y(v)}" r="${s.dashed?3.5:2}" fill="${s.color||colors[s.name]||'#63768d'}"><title>${escape(s.name)} · ${escape(labels[i])}: ${v.toFixed(6)} ${escape(unit)}</title></circle>`:'').join('');}).join('');
+  return `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${escape(title)}"><title>${escape(title)}</title>${forecastAt===null?'':`<rect x="${x(forecastAt)}" y="${t}" width="${w-r-x(forecastAt)}" height="${h-b-t}" fill="#edf5ff"/><line x1="${x(forecastAt)}" x2="${x(forecastAt)}" y1="${t}" y2="${h-b}" stroke="#9aabc2" stroke-dasharray="5 5"/>`}${grid}${paths}${ticks.map(i=>`<text x="${x(i)}" y="${h-15}" text-anchor="middle">${escape(labels[i])}</text>`).join('')}</svg>`;
+}
+export function metricBars(metrics){
+  if(!metrics.length)return '';
+  const max=Math.max(...metrics.map(m=>m.rmse_usd),1),width=900,rowH=46,height=metrics.length*rowH+30;
+  return `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="So sánh MAE RMSE, USD"><title>Thanh đậm MAE, thanh nhạt RMSE · USD</title>${metrics.map((m,i)=>{const y=10+i*rowH,c=colors[m.method];return `<text x="0" y="${y+20}">${escape(m.method.toUpperCase())} · ${m.horizon_step===null?'Overall':'T+'+m.horizon_step}</text><rect x="180" y="${y}" width="${m.rmse_usd/max*560}" height="28" rx="4" fill="${c}" opacity=".2"/><rect x="180" y="${y+7}" width="${m.mae_usd/max*560}" height="14" rx="3" fill="${c}"/><text x="760" y="${y+20}">${m.mae_usd.toFixed(3)} / ${m.rmse_usd.toFixed(3)}</text>`;}).join('')}</svg>`;
+}

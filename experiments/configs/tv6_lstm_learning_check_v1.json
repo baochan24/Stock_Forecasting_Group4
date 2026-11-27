@@ -1,0 +1,16 @@
+{
+  "purpose": "TV6 item6 follow-up priority1; development diagnostic, not release",
+  "validation_years": [2022, 2023],
+  "forecast_lengths": [1, 5],
+  "seeds": [42, 123, 456],
+  "references": ["persistence", "train-mean-price-change-v1", "existing residual LSTM"],
+  "drift_estimator": "per-horizon mean of target USD minus origin USD, training windows only",
+  "gradient_states": ["reconstructed_zero_head_initialization", "reconstructed_default_head_initialization", "existing_checkpoint"],
+  "gradient_train_batches": ["first32", "middle32", "last32"],
+  "gradient_loss": "mean squared error in current scaled-delta representation",
+  "gradient_mode": "eval on private copy, backward allowed, no optimizer step",
+  "parameter_updates_allowed": false,
+  "test_forward_allowed": false,
+  "hyperparameter_search_allowed": false,
+  "promotion_allowed": false
+}
