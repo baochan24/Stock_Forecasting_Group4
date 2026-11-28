@@ -1,8 +1,8 @@
 # Hướng dẫn thành viên cài đặt và chạy AAPL Forecast Lab
 
-Cập nhật 27/11/2026. Hướng dẫn chạy lại demo API/frontend từ model đã train; **không cần train lại, Docker hoặc GPU**. Các lệnh dưới dùng Windows PowerShell, chạy từ thư mục gốc project có `rule.md`, `backend/`, `frontend/` và `scripts/`.
+Cập nhật 28/11/2026. Hướng dẫn chạy lại demo API/frontend từ model đã train; **không cần train lại, Docker hoặc GPU**. Các lệnh dưới dùng Windows PowerShell, chạy từ thư mục gốc project có `rule.md`, `backend/`, `frontend/` và `scripts/`.
 
-Đã kiểm demo trên máy phát triển. **Cài mới và chạy trên máy thành viên khác chưa được nghiệm thu.** Tài liệu này không thay thế bước kiểm máy khác/bàn giao cuối ở mục10.
+Đã kiểm demo và cài mới từ lock trên một venv riêng ở máy phát triển:85 pins khớp,pip check sạch,62 tests API/handoff và14 checks Chrome/5 tests JS đạt. **Chạy trên máy thành viên khác vẫn chưa được nghiệm thu.** Tài liệu này không thay thế biên bản thật từ người nhận ở mục10.
 
 ## 1. Cần cài gì?
 
@@ -36,7 +36,7 @@ Repo: https://github.com/baochan24/Stock_Forecasting_Group4. Dùng đúng branch
 
 Manifest là danh sách chính xác file và SHA cần có. **Giữ nguyên cả cây đường dẫn tương đối**, kể cả checkpoint CNN nằm dưới `logs/audit/.../checkpoints/`; không gom tất cả `.pt` vào một thư mục. Source Python đã pin trong release cũng phải khớp hash, không chỉ weights.
 
-ZIP `aapl-research-residual-v1.zip` của mục7 chỉ là gói **inference**. ZIP này chưa chứa API/frontend/sidecar mới và chưa phải gói web hoàn chỉnh. Nếu chỉ nhận ZIP đó, cần xin leader bổ sung các phần trên trước khi chạy web. Gói bàn giao đầy đủ/kênh tải cuối sẽ được chốt ở mục10; tài liệu này không tạo hoặc upload gói mới.
+ZIP `aapl-research-residual-v1.zip` của mục7 chỉ là gói **inference**, chưa chứa API/frontend/sidecar mới. Mục10 bổ sung gói runtime web local theo `logs/audit/tv6_web_handoff_latest.json`, có ZIP/checksum/manifest và verifier riêng. Chưa upload hoặc xác nhận người nhận trên máy khác. Notebook trong gói là saved outputs; RunAll toàn bộ nghiên cứu cần thêm artifacts/logs nghiên cứu gốc.
 
 Không tự chạy training, sửa manifest/hash hoặc tải snapshot mới để thay file thiếu. Không yêu cầu máy thành viên dựng lại sidecar từ logs nghiên cứu: nhận sidecar đã nghiệm thu cùng registry tương ứng.
 
@@ -73,7 +73,17 @@ Các lệnh luôn gọi đầy đủ `python.exe` trong môi trường nên **kh
 
 Kỳ vọng JSON có `passed: true`, đúng release ID và các checks đạt. Script nạp model/scaler, chạy inference kiểm tra; không train hoặc fit lại.
 
-Kiểm thêm sidecar API:
+Nếu nhận gói web mục10, kiểm toàn bộ payload và API bằng:
+
+```powershell
+.venv/tv6_demo/Scripts/python.exe scripts/verify_tv6_web_handoff.py --http
+```
+
+Lệnh này chỉ dùng cho gói có `TV6_WEB_HANDOFF.json`; kiểm hash từng file, inference/metrics/trace và frontend/proxy HTTP thật trên port tạm, tự dừng server thử nghiệm. Dùng interpreter môi trường người nhận, không phụ thuộc tên môi trường máy leader. Đạt trên cùng máy vẫn chưa là bằng chứng máy khác.
+
+Để lưu JSON gửi leader, thêm `--reviewer "TenThanhVien" --output logs/member_acceptance_01.json`; script không ghi đè file cũ. Chi tiết [biên bản kiểm máy thành viên](TV6_Member_Acceptance.md). Tên reviewer là khai báo của người chạy, không tự xác nhận đó là máy khác.
+
+Kiểm thêm sidecar API riêng khi làm việc từ workspace/source:
 
 ```powershell
 .venv/tv6_demo/Scripts/python.exe -c "from pathlib import Path; from backend.artifacts.research_release import validate_release; from backend.services.results.release_results import ReleaseResults; root=Path.cwd(); release=validate_release(root); sidecar=ReleaseResults(root).validate(release); print({'passed': True, 'rows': sidecar['rows'], 'release_sha256': release['semantic_sha256']})"
@@ -146,7 +156,13 @@ Kiểm thử tự động là tùy chọn, chạy từ gốc project:
 node --test tests/frontend/test_ui_contract.mjs
 ```
 
-`scripts/check_tv6_frontend.mjs` hiện dùng cố định `.venv/tv4_clean/Scripts/python.exe` và đường dẫn Chrome trên máy phát triển. **Không chạy nguyên script này trên môi trường `tv6_demo` rồi kỳ vọng nó tự chọn đúng Python.** Kiểm browser tự động portable sẽ được xử lý khi bàn giao cuối; các bước kiểm thủ công trên vẫn áp dụng cho máy thành viên.
+Checker frontend mới hỗ trợ chọn interpreter và browser, không còn bắt buộc môi trường máy leader. Gói cũ có thể chưa có các tùy chọn này; dùng gói bàn giao mới tương ứng:
+
+```powershell
+node scripts/check_tv6_frontend.mjs --python ".venv/tv6_demo/Scripts/python.exe" --browser "C:/Program Files/Google/Chrome/Application/chrome.exe"
+```
+
+Có thể dùng Edge bằng đường dẫn executable tương ứng. Node/browser chỉ cần cho test tự động, không cần để khởi động API/frontend thông thường.
 
 ## 7. Lỗi thường gặp
 

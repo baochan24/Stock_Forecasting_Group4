@@ -470,3 +470,21 @@ TV6 post-test diagnosis: scripts/analyze_tv6_test_gap.py; reports/audits/TV6_Per
 - docs/TV6_Frontend_Demo.md: hướng dẫn và kịch bản demo.
 - docs/TV6_Member_Setup_and_Run.md: hướng dẫn máy thành viên nhận artifacts, cài dependencies, kiểm release và chạy demo local.
 - reports/audits/TV6_Item9_Frontend.md: nghiệm thu/giới hạn/bằng chứng.
+
+### TV6 item10 final coursework audit and runtime handoff
+
+- scripts/audit_tv6_coursework.py: audit hash/scaler/prepared/cohort/metric/evidence và tổng hợp7 báo cáo.
+- scripts/build_tv6_web_handoff.py: ZIP runtime web mới,manifest/checksum; không ghi đè release v1.
+- scripts/verify_tv6_web_handoff.py: payload/inference/API/frontend proxy HTTP từ nguồn giải nén,không train.
+- docs/TV6_Coursework_Output_and_Defense.md: đề gốc,10 nội dung đăng ký,7 đầu ra và kết luận bảo vệ.
+- docs/TV6_Data_Use_and_Limits.md: nguồn/quyền dữ liệu và giới hạn chưa xác nhận.
+- reports/audits/TV6_Item10_Final_Audit.md: phát hiện,sửa và kết luận audit toàn bài toán.
+
+### TV6 handoff closure
+
+- scripts/export_tv6_report_tables.py: xuất lại các bảng báo cáo đã nghiệm thu, không train hoặc tính metric mới.
+- tests/integration/test_tv6_web_handoff.py: payload/hash/path và biên bản UTF-8 không ghi đè.
+- docs/TV6_Member_Acceptance.md: quy trình người nhận chạy trên máy khác và gửi biên bản thật.
+- reports/tables/TV6_Final_Comparison.csv, TV6_Final_Per_Horizon.csv, TV6_Final_Per_Seed.csv: bảng tổng hợp/từng seed/horizon có nhãn giai đoạn.
+- reports/tables/TV6_Final_Tables_Provenance.json: hash nguồn và đầu ra của bảng.
+- reports/audits/TV6_Closure_and_Handoff.md: cài mới, công cụ nghiệm thu, bảng báo cáo và trạng thái bàn giao còn chờ bên ngoài.

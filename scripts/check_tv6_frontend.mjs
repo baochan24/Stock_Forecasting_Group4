@@ -2,12 +2,22 @@
 import {spawn,execFileSync} from 'node:child_process';
 import {createServer} from 'node:net';
 import {mkdir,writeFile,readFile} from 'node:fs/promises';
+import {existsSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const python=path.join(root,'.venv/tv4_clean/Scripts/python.exe');
+const args=process.argv.slice(2);
+if(args.length%2||args.some((a,i)=>i%2===0&&!['--python','--browser'].includes(a)))throw new Error('Usage: node scripts/check_tv6_frontend.mjs [--python interpreter] [--browser executable]');
+const option=name=>{const i=args.indexOf(name);return i<0?null:args[i+1];};
+const python=option('--python')||process.env.TV6_PYTHON||['.venv/tv6_demo/Scripts/python.exe','.venv/tv4_clean/Scripts/python.exe','.venv/bin/python'].map(p=>path.join(root,p)).find(existsSync);
+const browser=option('--browser')||process.env.TV6_BROWSER||[
+  path.join(process.env.PROGRAMFILES||'C:/Program Files','Google/Chrome/Application/chrome.exe'),
+  path.join(process.env['PROGRAMFILES(X86)']||'C:/Program Files (x86)','Microsoft/Edge/Application/msedge.exe'),
+  path.join(process.env.LOCALAPPDATA||'','Google/Chrome/Application/chrome.exe')].find(existsSync);
+if(!python||!existsSync(python))throw new Error('Python not found; supply --python with an existing environment interpreter.');
+if(!browser||!existsSync(browser))throw new Error('Browser not found; supply --browser with Chrome or Edge executable.');
 const stamp=new Date().toISOString().replace(/[-:.]/g,'');
 const folder=path.join(root,'logs/audit','tv6_item9_'+stamp);
 await mkdir(folder,{recursive:true});
@@ -23,7 +33,7 @@ try{
   launch(python,['scripts/run_tv6_frontend.py','--port',String(uiPort),'--api-port',String(apiPort)]);
   await waitFor(async()=> (await fetch(`http://127.0.0.1:${uiPort}/`)).ok,'UI server');
   await waitFor(async()=> (await fetch(`http://127.0.0.1:${apiPort}/api/v1/health`)).ok,'API startup');
-  launch('C:/Program Files/Google/Chrome/Application/chrome.exe',['--headless=new','--disable-gpu','--no-first-run','--no-default-browser-check','--remote-debugging-port='+debugPort,'--user-data-dir='+path.join(root,'.venv','tv6_browser_'+stamp),'about:blank']);
+  launch(browser,['--headless=new','--disable-gpu','--no-first-run','--no-default-browser-check','--remote-debugging-port='+debugPort,'--user-data-dir='+path.join(root,'.venv','tv6_browser_'+stamp),'about:blank']);
   let targets;await waitFor(async()=>{targets=await (await fetch(`http://127.0.0.1:${debugPort}/json`)).json();return targets.some(t=>t.type==='page');},'Chrome');
   ws=new WebSocket(targets.find(t=>t.type==='page').webSocketDebuggerUrl);await new Promise((resolve,reject)=>{ws.onopen=resolve;ws.onerror=reject;});
   let id=0;const pending=new Map();
@@ -78,7 +88,7 @@ try{
   const source_hashes=Object.fromEntries(await Promise.all(sourcePaths.map(async p=>[p,createHash('sha256').update(await readFile(path.join(root,p))).digest('hex')])));
   const tests=execFileSync(process.execPath,['--test','tests/frontend/test_ui_contract.mjs'],{cwd:root,windowsHide:true,encoding:'utf8'});await writeFile(path.join(folder,'javascript_tests.tap'),tests);
   const integrity=execFileSync(python,['-c',"from backend.artifacts.research_release import validate_release;from backend.services.results.release_results import ReleaseResults;from pathlib import Path;r=validate_release(Path.cwd());ReleaseResults(Path.cwd()).validate(r);print(r['semantic_sha256'])"],{cwd:root,windowsHide:true,encoding:'utf8'}).trim();
-  const summary={passed:true,browser:'Chrome headless via CDP',real_api:true,checks:checks.length,unit_tests:5,release_sha256:integrity,training:false,independent_holdout:false,source_hashes,evidence:path.relative(root,folder).replaceAll('\\','/')};
+  const summary={passed:true,browser:'Chromium headless via CDP',browser_executable:browser,python_executable:python,real_api:true,checks:checks.length,unit_tests:5,release_sha256:integrity,training:false,independent_holdout:false,source_hashes,evidence:path.relative(root,folder).replaceAll('\\','/')};
   await writeFile(path.join(folder,'checks.json'),JSON.stringify(checks,null,2));await writeFile(path.join(folder,'prediction_requests.json'),JSON.stringify(predictionRequests,null,2));await writeFile(path.join(folder,'summary.json'),JSON.stringify(summary,null,2));await writeFile(path.join(root,'logs/audit/tv6_item9_latest.json'),JSON.stringify({evidence:summary.evidence+'/summary.json'},null,2));console.log(JSON.stringify(summary));
 }catch(error){await writeFile(path.join(folder,'failure.json'),JSON.stringify({error:error.stack,checks,consoleErrors},null,2));throw error;}
 finally{ws?.close();for(const child of processes)if(child.exitCode===null)child.kill();await writeFile(path.join(folder,'server_browser.log'),logs.join(''));}

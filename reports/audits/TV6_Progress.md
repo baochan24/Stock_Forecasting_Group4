@@ -1,5 +1,9 @@
 # TV6 — nghiệm thu nghiên cứu và tích hợp coursework
 
+**Hoàn thiện sau mục10 — 28/11/2026:** cài venv mới từ lock thành công,85 pins/pip check,62 tests API/handoff,14 checks Chrome/5 tests JS đạt. Có công cụ xuất biên bản,checker portable,3 bảng CSV và quy trình thành viên nghiệm thu máy khác. Notebook58cells/29code cells,giữ output nghiên cứu. [Báo cáo hoàn thiện](TV6_Closure_and_Handoff.md). Chưa có biên bản từ máy khác,quyền phân phối dữ liệu hoặc xác nhận thủ tục nộp cuối.
+
+**28/11/2026 — mục10 đã audit kỹ thuật local:** đối chiếu đề và10 nội dung đăng ký, cập nhật7 phần báo cáo, kiểm lại dữ liệu/scaler/windows/hash/metrics và regression, notebook56cells/28code cells. Bổ sung gói runtime web local/verifier; vẫn chờ fresh install/máy khác,quyền phân phối dữ liệu và thủ tục nộp cuối. [Kết quả audit](TV6_Item10_Final_Audit.md), [đầu ra theo đề](../../docs/TV6_Coursework_Output_and_Defense.md). Không gọi tất cả điều kiện bàn giao đã đạt.
+
 **Mới nhất — mục9 hoàn thành local:** AAPL Forecast Lab theo concept, API thật;5 tests JS/14 checks Chrome desktop/mobile/outage đạt. Notebook52cells/26code cells. [Nghiệm thu](TV6_Item9_Frontend.md), [cách chạy](../../docs/TV6_Frontend_Demo.md). Mục10 chờ. Bên dưới là lịch sử từng bước.
 
 **Mới nhất — mục8 hoàn thành local:** FastAPI/Uvicorn đủ12route,46tests và15HTTPchecks thật đạt;69corepinsgiữnguyên,khôngtrain. Notebook46cells/23code cells cóoutputAPI/metrics/trace. [Nghiệm thu API](TV6_Item8_API.md), [cách chạy](../../docs/TV6_API_Setup_and_Contract.md). Mục9–10 cònchờ.
@@ -29,7 +33,7 @@ Leader đảm nhận TV6 theo người dùng. Flow cố định bên dưới dù
 | 7 | Release manifest, integration và end-to-end | Đạt local:14tests,20.144predictions khớpaccepted,ZIP nguồnriêng; chưa máy khác |
 | 8 | API theo contract, health/readiness | Đạt local:46tests/15HTTPchecks,12route,sidecarreadonly; chưafrontend/máykhác |
 | 9 | Frontend/demo theo concept AAPL Forecast Lab | Đạt local:5 tests JS/14 checks Chrome/API,desktop/mobile/outage; chưa deployment/máy khác |
-| 10 | Audit cuối/tái lập/báo cáo/bảo vệ coursework | Chờ |
+| 10 | Audit cuối/tái lập/báo cáo/bảo vệ coursework | Đã audit/tổng hợp local và chuẩn bị runtime handoff; chờ xác nhận máy khác/quyền dữ liệu/thủ tục nộp |
 
 Mục1 không phải phát hành release, quyết định demo seed hoặc đánh giá test. Module metric/persistence/monitoring tối thiểu đã có từ TV5, cần tiếp nhận và hoàn thiện theo phạm vi TV6. Live AAPL chỉ là định hướng mở rộng, chưa chốt nguồn/quyền/data contract để triển khai.
 

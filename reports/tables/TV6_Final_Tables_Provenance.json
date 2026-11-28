@@ -1,0 +1,16 @@
+{
+  "source_hashes": {
+    "logs/audit/tv6_item10_20261128T032501868251Z/summary.json": "523b95d875b3e4068c430c7e029bac1b82dff95125fd1fc9a8ec678912db7c1e",
+    "logs/audit/tv6_item5_20261126T172135216078Z/metrics.csv": "57e19c0158be007676400dab76a62684e64bc33a9fcff52f8ef8a528b5fb3374",
+    "logs/audit/tv6_lstm_completion_20261127T023617456097Z/metrics.csv": "fc1da0701595fc355d28f7d7bd0d39ef559c5cc415079e3a69021f9a0b64b725"
+  },
+  "output_hashes": {
+    "TV6_Final_Comparison.csv": "dc9ffe5003de023ca2829795804d8b4b2fbdfbc6e52a904aa065e739a3e606e4",
+    "TV6_Final_Per_Horizon.csv": "7f9448a901e2b80111ff0b4009d04c28916098f53463adae0fdf98226f31af71",
+    "TV6_Final_Per_Seed.csv": "7dd1be8f1cd3885a186850236c5717e99b041398677027ccaede76f9ee909556"
+  },
+  "per_seed_rows": 59,
+  "independent_holdout": false,
+  "training": false,
+  "note": "Mean across predeclared seeds, not an ensemble; phases must remain separate."
+}

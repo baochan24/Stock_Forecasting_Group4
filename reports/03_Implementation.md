@@ -1,3 +1,17 @@
+## Tổng kết hiện hành — audit mục10, 28/11/2026
+
+Pipeline: TV1 thu thập/validation → TV2 split/scaler/window/contracts → TV3 LSTM/trace → TV4 shared training/experiments → TV5 CNN → TV6 baseline/inference/evaluation/release/API/UI.
+
+LSTM một lớp hidden32,last readout,Linear1/5,4513/4645 tham số. CNN Conv1d1→16→32,ReLU,MaxPool2,Flatten,Dropout0.1,Linear480→32→1,17057 tham số. CPUfloat64; model không nhận target khi inference. TV4 loop Adam/MSE,validation no_grad,early stopping vàrestore best; CNN dùng chung loop. LSTM chọn lookback30 qua validation từ10/30/60; CNN phương ánA cố định,ngân sách khác nhau nên không gọi so sánh tối ưu toàn cục.
+
+Model gốc dùng StandardScaler absolute; residual LSTM dùng (history−origin)/scale_train vàdecode origin+scale_train×delta,không cộng mean cho delta. H5 direct multi-output,không recursive. Release chọn đúng scaler/representation/checkpoint theo manifest,không lấy file mới nhất.9 models gồm6 residualLSTM và3CNN; persistence không weights.
+
+FastAPI12routes,request input-only,actual ghép sau,error/requestID/CORS/readiness; frontend HTML/CSS/ESmodules gọi API,không tính MAE/RMSE riêng. Source thuộc đúng module hiện có. Các mô tả giai đoạn cũ phía dưới chỉ là lịch sử.
+
+---
+
+## Lịch sử các giai đoạn — không dùng làm trạng thái hiện tại
+
 # Mã nguồn và triển khai
 
 ## TV4 — contract CPU float64, mục2 (25/11/2026)

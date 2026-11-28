@@ -1,3 +1,15 @@
+## Tổng kết hiện hành — audit mục10, 28/11/2026
+
+LSTM/CNN gốc thua persistence trên test khóa. Residual cải thiện rõ so với LSTM gốc nhưng chỉ nhỉnh nhẹ persistence trên test cũ đã quan sát; không phải holdout độc lập, chưa chứng minh thắng bền vững/ý nghĩa thống kê hoặc lợi nhuận. Không train/tune/refit thêm trong audit cuối.
+
+LSTM absolute cóbias âm,lỗi tăng ở mứcgiá cao; điều chỉnhresidual giảmđángkể lỗi so vớibản gốc. Probeshistory/flat vàgradient cho thấy lịch sử cũ ảnhhưởng yếu ởfold2023,hàmhiệuchỉnhgầnhằngsố; chưa đủkếtluậnLSTM họcđượcquyluậtthịtrường mạnh. Coregradient/weights cóđườnghọchoạtđộng,khôngpháthiệnđứtbackprop; mean-readoutablationkhôngđượcchọn.
+
+Giới hạn: một ticker/mộtfeature,adjustedclosehồicứu,validationđãdùngchọnmodel,ngânsáchtuningLSTM/CNNkhácnhau,H5windowschồnglấn,khôngholdoutmớisaupháttriểnresidual,chưathresholdýnghĩathựctiễn/thốngkê,khôngsuyralợinhuận. Trainingtests/đồthịbámgiákhôngthay bằngchứnghiệuquả. Chưaxácnhậnmáykhác/quyềnphânphốicôngkhaidữliệu. KhôngsửacáckếtquảbấtlợiđểđạtđiềukiệnLSTMthắng.
+
+---
+
+## Lịch sử các giai đoạn — không dùng làm trạng thái hiện tại
+
 # Phân tích lỗi và giới hạn
 
 Trạng thái27/11/2026: TV6 mục6 đã hoàn thành phân tích local; còn vấn đề mô hình cần xử lý trước khi chốt candidate/release. Không train/fix thêm trong mục6.

@@ -1,5 +1,9 @@
 # Hướng dẫn cài đặt và chạy
 
+**Hoàn thiện bàn giao:** đã thử cài mới85 pins/pip check và62 tests API/handoff trên venv riêng,14 checks Chrome/5 tests JS đạt cùng máy. [Kết quả](../reports/audits/TV6_Closure_and_Handoff.md), [cách thành viên xuất biên bản](TV6_Member_Acceptance.md). Dùng gói web mới để có tùy chọn `--output`, `--python`, `--browser`; chưa xác nhận máy khác.
+
+**Audit cuối mục10:** [Đầu ra theo đề và cách bảo vệ](TV6_Coursework_Output_and_Defense.md), [báo cáo audit](../reports/audits/TV6_Item10_Final_Audit.md). Có builder/verifier gói runtime web mới, giữ nguyên release v1; xác nhận máy khác/quyền phân phối dữ liệu còn mở.
+
 **Máy thành viên mới:** xem [Hướng dẫn cài đặt và chạy AAPL Forecast Lab](TV6_Member_Setup_and_Run.md) để nhận đủ artifacts, tạo môi trường riêng, cài dependencies, kiểm release và chạy API/frontend. Chưa nghiệm thu máy khác; không cần train lại hoặc Docker.
 
 ## TV6 frontend — mục9 local

@@ -1,5 +1,9 @@
 # notebooks
 
+**Hoàn thiện bàn giao TV6:** notebook06 hiện58cells/29code cells. Đã cập nhật output browser dùng interpreter mới và bổ sung bằng chứng cài mới85 pins/62 tests/14 browser checks/5 tests JS; giữ output nghiên cứu trước đó. Xem reports/audits/TV6_Closure_and_Handoff.md. Máy khác/quyền dữ liệu vẫn cần xác nhận; các số cell bên dưới là lịch sử.
+
+**TV6 mục10:** notebook06 hiện56cells/28code cells, hai code cells cuối có audit matrix, kết quả original/residual tách phase và chart MAE. Giữ output1–9. Local technical audit đạt; không đánh dấu máy khác/quyền dữ liệu đã xác nhận. Xem docs/TV6_Coursework_Output_and_Defense.md và reports/audits/TV6_Item10_Final_Audit.md. Các số cell bên dưới là lịch sử.
+
 **TV6 mục9:** notebook06 có52cells/26code cells, giữ output cũ; hai cell mới replay request H5 qua backend, xem screenshot Chrome thật và14 checks/5 tests JS. Builder đã đồng bộ. Frontend chạy scripts/run_tv6_frontend.py, mở http://127.0.0.1:5173 sau khi API8000 sẵn sàng. Xem docs/TV6_Frontend_Demo.md. Mục10 còn chờ; các số cell bên dưới là lịch sử.
 
 **TV6 mục8:** notebook06 hiện46cells/23code cells cóoutput APIprediction/metric/verifiedLSTMgateplot vàacceptance46tests/15realHTTPchecks. APIexample dùngTestClient, khôngtrain hoặc cầnserverđangchạy. Backendstart: scripts/run_tv6_api.py; frontend cònmục9. Xemdocs/TV6_API_Setup_and_Contract.md.

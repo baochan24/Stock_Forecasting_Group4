@@ -1,5 +1,7 @@
 # Tái lập và phát hành
 
+Mục10 có `scripts/build_tv6_web_handoff.py` tạo ZIP runtime web local mới gồm API/frontend/sidecar và release artifacts đúng đường dẫn. Checksum/receipt ở `logs/audit/tv6_web_handoff_latest.json`. Giải nén riêng rồi chạy `scripts/verify_tv6_web_handoff.py --http` bằng môi trường người nhận. Không thay ZIP inference v1, không tự upload; full research RunAll/training cần artifacts/logs nghiên cứu ngoài gói runtime. Máy khác và quyền phân phối dữ liệu chưa được xác nhận.
+
 Run: ID duy nhất, cấu hình, seed, Git commit/trạng thái chưa commit, môi trường, dataset hash, scaler, checkpoint, logs, predictions, metric và audit. Không ghi đè run cũ.
 Release: liên kết các run/model phù hợp một/năm bước, dataset, scaler/config và kết quả. Chọn seed phục vụ trước test, không chọn test đẹp nhất.
 Web dùng release cụ thể, không train lại. Dùng artifacts/checkpoints cho run và artifacts/releases cho bộ phát hành. Cách sao chép hoặc tham chiếu trọng số chốt khi triển khai; không nhân đôi tùy tiện.

@@ -1,3 +1,15 @@
+## Tổng kết hiện hành — audit mục10, 28/11/2026
+
+Snapshot hiện hành `2766` phiên,version `aapl_2015_2025_acq_20261119T141302002415Z`,2015-01-02–2025-12-31. Yahoo/yfinance,auto_adjust=False,chọn Adj Close làm adjusted_close. Bảng chuẩn date/ticker/adjusted_close/dataset_version; USD.
+
+Train target2015–2022,val2023,test2024–2025; scaler chỉfit2014 giá train. H1:train1984/val250/test502 windows; H5:train1980/val246/test498. Giữ lịch sử quan sát từ split trước; cả5 target cùngsplit. Audit toàn bộ prepared/statistics/hash nguồn đạt, không sửa snapshot.
+
+Snapshot điều chỉnh hồi cứu không point-in-time. Nguồn dự phòng vận hành là snapshot/hash đã khóa; đây không phải nguồn thay thế được cấp phép. Chưa có bằng chứng quyền phân phối công khai dataset. Xem docs/TV6_Data_Use_and_Limits.md.
+
+---
+
+## Lịch sử các giai đoạn — không dùng làm trạng thái hiện tại
+
 # Dữ liệu mẫu và mô tả
 
 ## Cập nhật đã kiểm chứng trên snapshot hiện tại — 19/11/2026

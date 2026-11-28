@@ -1,5 +1,13 @@
 # Decision log
 
+## 28/11/2026 — hoàn thiện phần còn mở của bàn giao TV6
+
+Theo yêu cầu hoàn thiện công việc dang dở: tạo môi trường mới để thử cài đúng lock, bổ sung verifier xuất biên bản JSON không ghi đè và kiểm payload, thêm tùy chọn interpreter/browser cho browser checker. Xuất các bảng kết quả có hash nguồn sang reports/tables để đọc ngoài research logs; giữ riêng original/residual và từng seed/horizon. Không train, đổi checkpoint/scaler/split hoặc sửa release v1. Trạng thái cài mới chỉ ghi đạt sau khi có log/kiểm chứng; máy khác, quyền phân phối và thủ tục nộp phải có bằng chứng bên ngoài, không tự đánh dấu hoàn tất.
+
+## 28/11/2026 — TV6 mục10 audit toàn bài toán và chốt đầu ra
+
+Theo yêu cầu người dùng, đối chiếu Topic4,mẫu10 nội dung đăng ký và7 phần báo cáo; giữ kết quả model gốc/residual theo đúng giai đoạn. Không train/tune/refit hoặc sửa release v1. Bổ sung báo cáo hiện hành,notebook mục10,gói runtime web local gồm API/frontend/sidecar và verifier dùng môi trường người nhận. Xác nhận fresh install/máy khác,quyền phân phối dữ liệu và hình thức/lịch nộp cuối còn mở; không giả định hoàn thành từ kiểm cùng máy. Không push/upload/deploy. Xem TV6_Coursework_Output_and_Defense.md và TV6_Item10_Final_Audit.md.
+
 ## 27/11/2026 — TV6 mục9 frontend theo concept đã duyệt
 
 Người dùng giao triển khai mục9, giữ giao diện đã chốt. Dùng HTML/CSS/ES modules không dependency npm, SVG/table từ API, proxy localhost5173 tới API8000. Giữ nền sáng/sidebar/biểu đồ trung tâm/thẻ mô hình/nhật ký; bổ sung màn dữ liệu, metric full/range, stored errors, history/audit và trace verified đúng trách nhiệm TV6. H5 tự bỏ CNN, không target vào inference; không train/fit/tính MAE/RMSE phía frontend. Nguồn/snapshot/giới hạn hồi cứu và test cũ sau phát triển phải hiển thị; nhật ký chỉ bộ nhớ tab. Không mở live/trading/deployment Internet, không thay model/release hoặc tự hoàn thành mục10. Xem docs/TV6_Frontend_Demo.md và reports/audits/TV6_Item9_Frontend.md cho bằng chứng thực thi.

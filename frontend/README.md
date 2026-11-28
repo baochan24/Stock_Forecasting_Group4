@@ -21,3 +21,5 @@ Mở **http://127.0.0.1:5173**. Chạy hai lệnh ở hai terminal riêng; nếu
 Các thư mục con giữ ranh giới thiết kế. `api_client/client.js` sở hữu HTTP/error/timeout; `forecast_selection/state.js` sở hữu request/ghép comparison/CSV; `prediction_results/charts.js` sở hữu SVG/table đã escape; `app.js` điều phối màn hình.
 
 Kiểm tra: `node --test tests/frontend/test_ui_contract.mjs`; kiểm thử browser/API thật: `node scripts/check_tv6_frontend.mjs` (Node22+, Chrome cài sẵn trên Windows). Script khởi chạy server/Chrome riêng, lưu receipt/screenshots trong logs/audit/tv6_item9_* và tự dừng các process do nó tạo. Không tác động server người dùng. Chưa triển khai Internet hoặc kiểm máy khác; ZIP inference mục7 chưa chứa frontend/API.
+
+Lượt hoàn thiện mục10 thêm `--python "đường/dẫn/python.exe" --browser "đường/dẫn/chrome.exe"` (hoặc Edge) và TV6_PYTHON/TV6_BROWSER. Đã kiểm bằng venv mới cài từ lock:14 checks/5 tests JS đạt. Xem docs/TV6_Member_Acceptance.md để nhận biên bản từ máy thành viên; không tự coi kiểm cùng máy là máy khác.

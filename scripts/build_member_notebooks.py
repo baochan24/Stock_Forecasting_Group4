@@ -1373,7 +1373,7 @@ print('Bằng chứng',audit_eval_root/audit_eval_pointer['evidence'])'''),
 def tv6():
     cells=_tv6_before_item5()
     cells[0].source=cells[0].source.replace('**Trạng thái hiện tại: mục1–4 đã hoàn thành local, gồm nghiệm thu đầu vào, khóa protocol, inference và evaluation validation; chưa đánh giá hiệu năng test.**',
-        '**Trạng thái hiện tại: mục1–9 đã hoàn thành local theo phạm vi từng mục, gồm release/inference, API và frontend AAPL Forecast Lab. Residual được đánh giá sau phát triển trên test đã quan sát, không phải test độc lập mới. Mục10 còn chờ. Các nhận xét chưa mở test/chưa có API/frontend ở các mục trước phản ánh giai đoạn lịch sử tương ứng.**')
+        '**Trạng thái hiện tại: mục1–9 hoàn thành local; mục10 đã audit kỹ thuật và tổng hợp đầu ra theo đề. Bàn giao máy khác/quyền phân phối dữ liệu vẫn chờ xác nhận. Residual được đánh giá sau phát triển trên test đã quan sát, không phải test độc lập mới. Các nhận xét ở mục trước phản ánh giai đoạn lịch sử tương ứng.**')
     cells[0].source+='\n\n**Bổ sung sau test:** cuối notebook có chẩn đoán persistence gap và thử nghiệm cải tiến residual trên validation2022/2023; giữ nguyên kết quả test chính thức. Đây là development, không phải test độc lập mới.'
     cells.extend([
         md('''## 5. Đánh giá chính thức test 2024–2025
@@ -1949,6 +1949,61 @@ display(pd.DataFrame([{k:v for k,v in ui_receipt.items() if k!='source_hashes'}]
 display(Image(filename=str(ui_folder/'forecast_mobile.png'),width=300))
 print('Bằng chứng:',ui_folder)
 print('Tiếp theo mục10: audit cuối, tái lập và bàn giao; chưa push hoặc upload.')''')])
+    cells.extend([
+        md('''## 10. Audit toàn bài toán và chốt đầu ra theo đề
+
+        Đề Topic4: Yahoo Finance, LSTM regression dự báo phiên tiếp theo; mở rộng multi-step và CNN vs.LSTM. Sản phẩm hiện có snapshot/preprocessing, H1/H5/CNN/persistence, checkpoint/scaler/config/seed, metric USD, phân tích lỗi, API/frontend và hướng dẫn. Bảy báo cáo được tổng hợp lại theo bằng chứng hiện hành; không dùng trạng thái khung báo cáo cũ làm kết luận.
+
+        Audit kiểm lại hash dữ liệu/model, scaler train, prepared windows/split/float64, actual/target dates, metric scalar math, kết quả test gốc và residual theo giai đoạn. Không train/tune/refit mô hình. Tests acquisition dùng môi trường TV1 riêng, core/model/API dùng TV4; fixture tổng hợp không thay bằng chứng artifacts thật. Máy khác và quyền phân phối dữ liệu vẫn cần xác nhận, không ghi đã nghiệm thu toàn bộ.'''),
+        code('''final_pointer=json.loads((api_root/'logs/audit/tv6_item10_latest.json').read_text(encoding='utf-8'))
+final_path=api_root/final_pointer['evidence']
+final_audit=json.loads(final_path.read_text(encoding='utf-8'))
+assert final_audit['passed'] and not final_audit['training_performed'] and not final_audit['refit_performed']
+from backend.artifacts.research_release import validate_release
+assert validate_release(api_root)['semantic_sha256']==final_audit['release_sha256']
+for name,sha in final_audit['source_hashes'].items():
+    assert hashlib.sha256((api_root/name).read_bytes()).hexdigest()==sha,name
+display(pd.DataFrame(final_audit['requirements']))
+final_scores=pd.read_csv(final_path.parent/'comparison.csv')
+display(final_scores[['phase','method','horizon','seeds','samples','errors','mae','mae_std','rmse','rmse_std']])
+print('Core JUnit (có subtests):',final_audit['core_regression'])
+print('Real TV1 tests:',final_audit['real_tv1_tests'])
+print('Acquisition offline:',final_audit['acquisition_tests'])'''),
+        md('''### Đầu ra và kết luận để trình bày giảng viên
+
+        Một request trả giá dự báo USD kèm release/dataset/origin/target/method/seed/run/horizon. Actual/error ghép sau inference. H1 một giá/phương pháp; H5 năm giá/phương pháp, không CNN. Metric chính thức và khoảng chọn tách biệt, model gốc và residual post-development không gộp thành test độc lập.
+
+        Kết luận: đã triển khai được bài toán và hai extension local. Model gốc thua persistence; residual giảm sai số so với bản gốc nhưng lợi thế baseline nhỏ trên test cũ đã quan sát, chưa chứng minh bền vững hoặc lợi nhuận. Đóng góp là pipeline/kiểm chứng/thực nghiệm minh bạch/demo tái lập. Đọc docs/TV6_Coursework_Output_and_Defense.md và reports/audits/TV6_Item10_Final_Audit.md. Gói web local mới dùng verifier riêng, không ghi đè release v1. Không tự upload/push hoặc nhận đã xác minh máy khác.'''),
+        code('''fig,axes=plt.subplots(1,2,figsize=(13,4.8))
+for ax,h in zip(axes,[1,5]):
+    selected=final_scores[final_scores.horizon==h].copy()
+    labels=[r.method+' / '+('original' if r.phase=='original_locked_test' else 'post-dev old test') for r in selected.itertuples()]
+    ax.barh(labels,selected.mae,color=['#597caa' if p=='original_locked_test' else '#2b9d8f' for p in selected.phase])
+    ax.set(title=f'H{h}: MAE USD; phases must remain separate',xlabel='MAE USD')
+fig.tight_layout();plt.show()
+display(pd.DataFrame({'Còn cần xác nhận':final_audit['open_items']}))
+print('Technical audit local:',final_audit['passed'])
+print('Whole coursework fully signed off:',final_audit['all_coursework_requirements_fully_signed_off'])
+print('No new independent holdout:',not final_audit['independent_holdout'])''')])
+    cells.extend([
+        md('''### Hoàn thiện phần bàn giao còn mở — cài môi trường mới
+
+        Sau audit mục10 đã tạo venv riêng, cài dependencies từ lock thay vì sao chép môi trường cũ, kiểm85 phiên bản và đường dẫn import. API/handoff và browser thực được chạy bằng interpreter mới. Có verifier xuất biên bản JSON không ghi đè, checker chọn Python/Chrome/Edge và các bảng CSV riêng cho báo cáo.
+
+        Đây vẫn là cùng máy vật lý; không thay xác nhận thành viên khác. Quyền phân phối dữ liệu và thủ tục nộp cần bằng chứng bên ngoài. Kết luận model không đổi, không train/refit/tuning. Gói mới phải được đối chiếu checksum và biên bản kiểm nguồn giải nén riêng; không ghi đè ZIP cũ.'''),
+        code('''closure_pointer=json.loads((api_root/'logs/audit/tv6_closure_latest.json').read_text(encoding='utf-8'))
+closure_folder=api_root/closure_pointer['folder']
+closure_checks=json.loads((closure_folder/'local_checks.json').read_text(encoding='utf-8'))
+assert closure_checks['passed'] and closure_checks['fresh_install_verified'] and not closure_checks['training']
+for name,sha in closure_checks['evidence_hashes'].items():
+    assert hashlib.sha256((closure_folder/name).read_bytes()).hexdigest()==sha,name
+assert validate_release(api_root)['semantic_sha256']==closure_checks['release_sha256']
+display(pd.DataFrame([{k:closure_checks[k] for k in ['packages_verified','pip_check_passed','pytest_passed','pytest_failures','pytest_skipped','browser_checks','javascript_tests','same_machine','verified_on_other_machine']}]))
+display(pd.read_csv(api_root/'reports/tables/TV6_Final_Comparison.csv'))
+display(pd.DataFrame({'Cần xác nhận bên ngoài':closure_checks['remaining_external']}))
+print('Fresh Python:',closure_checks['fresh_python'])
+print('Biên bản cho người nhận: docs/TV6_Member_Acceptance.md')
+print('Không train thêm; không có holdout độc lập mới.')''')])
     return cells
 
 

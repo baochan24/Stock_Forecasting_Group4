@@ -1,3 +1,13 @@
+## Tổng kết hiện hành — audit mục10, 28/11/2026
+
+Hướng dẫn máy thành viên: [TV6_Member_Setup_and_Run.md](../docs/TV6_Member_Setup_and_Run.md). Windows64/Python3.13.7 tham chiếu,tạo môi trường riêng,pip install theo scripts/requirements-tv6-api-lock.txt,pip check,verify release vàsidecar. Không cầnDocker/GPU/npm install hoặc train lại.
+
+Runtime web cần đủ source+release artifacts+API sidecar/registry+frontend; chỉcloneGit hoặcZIP inference mục7 chưa đủ. Chạy scripts/run_tv6_api.py vàscripts/run_tv6_frontend.py ở2terminal,mở127.0.0.1:5173. Bàn giao mới cómanifest/checksum vàverifier riêng; chỉkết luận tái lập nguồn giải nén cùngmáy khi córeceipt,không gọi làmáy khác.
+
+---
+
+## Lịch sử các giai đoạn — không dùng làm trạng thái hiện tại
+
 # Cài đặt và chạy
 
 ## TV6 API mục8
